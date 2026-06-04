@@ -1,9 +1,13 @@
-package com.example.vendedor.client;
+package com.example.cliente.webclient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
+
+import java.time.Duration;
 
 @Component
 public class UsuarioClient {
@@ -12,9 +16,12 @@ public class UsuarioClient {
 
     private final WebClient webClient;
 
-    public UsuarioClient(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder
+    public UsuarioClient() {
+        HttpClient httpClient = HttpClient.create()
+                .responseTimeout(Duration.ofSeconds(10));
+        this.webClient = WebClient.builder()
                 .baseUrl("http://localhost:8082")
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
 
