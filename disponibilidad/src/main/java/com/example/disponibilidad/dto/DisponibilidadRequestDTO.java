@@ -12,18 +12,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DisponibilidadRequestDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @NotNull
+    @NotNull(message = "El ID Del Vehiculo Es Obligatorio")
     private Long vehiculoId;
 
-    @NotNull
+    @NotNull(message = "La Fecha De Inicio Es Obligatoria")
     private LocalDate fechaInicio;
 
-    @NotNull
+    @NotNull(message = "La Fecha Del De Fin Es Obligatoria")
     private LocalDate fechaFin;
 
+    @NotNull(message = "Debe Indicar Si El Vehiculo Esta Disponible")
     private Boolean Disponible;
 }

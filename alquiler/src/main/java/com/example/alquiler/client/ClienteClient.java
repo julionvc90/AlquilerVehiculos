@@ -17,7 +17,7 @@ public class ClienteClient {
 
         return webClient
                 .get()
-                .uri("http://localhost:8081/clientes/" + id)
+                .uri("http://localhost:8081/api/clientes/" + id)
                 .retrieve()
                 .bodyToMono(ClienteResponseDTO.class)
                 .block();

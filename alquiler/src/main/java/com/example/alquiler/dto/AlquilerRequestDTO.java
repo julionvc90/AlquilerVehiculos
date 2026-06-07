@@ -3,6 +3,7 @@ package com.example.alquiler.dto;
 import com.example.alquiler.enums.EstadoAlquiler;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,14 +14,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlquilerRequestDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @NotBlank(message = "El Alquiler Debe Tener Un Estado")
+    @NotNull(message = "El Alquiler Debe Tener Un Cliente")
     private Long clienteId;
 
-    @NotBlank(message = "El Alquiler Debe Tener Un Estado")
+    @NotBlank(message = "El Alquiler Debe Tener Un Vehiculo")
     private Long vehiculoId;
 
     @NotBlank(message = "El Alquiler Debe Tener Una Fecha De Inicio")
