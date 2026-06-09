@@ -1,8 +1,8 @@
 package com.example.alquiler.service;
 
 import com.example.alquiler.dto.VehiculoResponseDTO;
-import com.example.alquiler.enums.EstadoAlquiler;
-import com.example.alquiler.client.*;
+import com.example.alquiler.model.EstadoAlquiler;
+import com.example.alquiler.webclient.*;
 import com.example.alquiler.model.*;
 import com.example.alquiler.repository.AlquilerRepository;
 import org.springframework.beans.factory.annotation.Autowired;

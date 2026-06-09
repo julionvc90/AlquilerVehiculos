@@ -1,6 +1,6 @@
 package com.example.alquiler.dto;
 
-import com.example.alquiler.enums.EstadoAlquiler;
+import com.example.alquiler.model.EstadoAlquiler;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

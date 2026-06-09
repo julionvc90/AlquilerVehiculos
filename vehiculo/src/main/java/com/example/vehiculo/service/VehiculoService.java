@@ -1,6 +1,6 @@
 package com.example.vehiculo.service;
 
-import com.example.vehiculo.client.VendedorClient;
+import com.example.vehiculo.webclient.VendedorClient;
 import com.example.vehiculo.model.Vehiculo;
 import com.example.vehiculo.repository.VehiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

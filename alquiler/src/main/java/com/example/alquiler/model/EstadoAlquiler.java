@@ -1,4 +1,4 @@
-package com.example.alquiler.enums;
+package com.example.alquiler.model;
 
 public enum EstadoAlquiler {
     Reservado,

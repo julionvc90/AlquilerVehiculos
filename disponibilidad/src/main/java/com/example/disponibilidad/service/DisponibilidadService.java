@@ -1,6 +1,6 @@
 package com.example.disponibilidad.service;
 
-import com.example.disponibilidad.client.VehiculoClient;
+import com.example.disponibilidad.webclient.VehiculoClient;
 import com.example.disponibilidad.model.Disponibilidad;
 import com.example.disponibilidad.repository.DisponibilidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
