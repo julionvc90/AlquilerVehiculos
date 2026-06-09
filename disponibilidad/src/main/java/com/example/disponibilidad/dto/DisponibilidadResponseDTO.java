@@ -14,5 +14,5 @@ public class DisponibilidadResponseDTO {
     private Long vehiculoId;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private Boolean Disponible;
+    private Boolean disponible;
 }

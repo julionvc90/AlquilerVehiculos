@@ -1,9 +1,21 @@
 package com.example.vehiculo.controller;
 
-import com.example.vehiculo.model.Vehiculo;
+import com.example.vehiculo.dto.VehiculoRequestDTO;
+import com.example.vehiculo.dto.VehiculoResponseDTO;
 import com.example.vehiculo.service.VehiculoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -11,32 +23,44 @@ import java.util.List;
 @RequestMapping("/api/vehiculos")
 public class VehiculoController {
 
-    @Autowired
-    private VehiculoService service;
+    private static final Logger logger = LoggerFactory.getLogger(VehiculoController.class);
+
+    private final VehiculoService service;
+
+    public VehiculoController(VehiculoService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public List<Vehiculo> listar() {
-        return service.listar();
+    public ResponseEntity<List<VehiculoResponseDTO>> listar() {
+        logger.info("GET /api/vehiculos - Listar todos los vehiculos");
+        return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
-    public Vehiculo buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public ResponseEntity<VehiculoResponseDTO> buscarPorId(@PathVariable Long id) {
+        logger.info("GET /api/vehiculos/{} - Buscar vehiculo por ID", id);
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @PostMapping
-    public Vehiculo guardar(@RequestBody Vehiculo vehiculo) {
-        return service.guardar(vehiculo);
+    public ResponseEntity<VehiculoResponseDTO> guardar(@Valid @RequestBody VehiculoRequestDTO dto) {
+        logger.info("POST /api/vehiculos - Crear nuevo vehiculo con patente: {}", dto.getPatente());
+        return new ResponseEntity<>(service.guardar(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Vehiculo actualizar(@PathVariable Long id, @RequestBody Vehiculo vehiculo) {
-        return service.actualizar(id, vehiculo);
+    public ResponseEntity<VehiculoResponseDTO> actualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody VehiculoRequestDTO dto) {
+        logger.info("PUT /api/vehiculos/{} - Actualizar vehiculo", id);
+        return ResponseEntity.ok(service.actualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        logger.info("DELETE /api/vehiculos/{} - Eliminar vehiculo", id);
         service.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
-
 }

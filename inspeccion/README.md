@@ -130,7 +130,7 @@ src/main/java/com/example/inspeccion/
 cd inspeccion
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8084`
+4. El microservicio se levanta en `http://localhost:8087`
 
 ---
 
