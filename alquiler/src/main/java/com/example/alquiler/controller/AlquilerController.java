@@ -70,6 +70,12 @@ public class AlquilerController {
         return ResponseEntity.ok(service.finalizarAlquiler(id));
     }
 
+    @GetMapping("/{id}/existe")
+    public ResponseEntity<Boolean> existe(@PathVariable Long id) {
+        logger.info("GET /api/alquiler/{}/existe - Verificar existencia", id);
+        return ResponseEntity.ok(service.existePorId(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/alquiler/{} - Eliminar alquiler", id);

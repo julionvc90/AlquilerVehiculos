@@ -30,7 +30,7 @@ public class AlquilerClient {
         try {
             return Boolean.TRUE.equals(
                     webClient.get()
-                            .uri("/api/alquileres/{id}/existe", alquilerId)
+                            .uri("/api/alquiler/{id}/existe", alquilerId)
                             .retrieve()
                             .bodyToMono(Boolean.class)
                             .block()

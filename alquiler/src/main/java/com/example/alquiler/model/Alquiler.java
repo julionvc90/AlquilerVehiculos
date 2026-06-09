@@ -2,8 +2,6 @@ package com.example.alquiler.model;
 
 import com.example.alquiler.model.EstadoAlquiler;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +28,7 @@ public class Alquiler {
     @Column(nullable = false)
     private LocalDate fechaInicio;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDate fechaFin;
 
     @Column(nullable = false)

@@ -19,6 +19,7 @@ public class VehiculoResponseDTO {
     private String categoria;
     private String capacidadPasajeros;
     private String color;
+    private Long vendedorId;
     private Double tarifaDiaria;
     private String ubicacion;
     private boolean activo;

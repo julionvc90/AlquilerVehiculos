@@ -79,6 +79,10 @@ public class VehiculoService {
         return toResponseDTO(actualizado);
     }
 
+    public boolean existePorId(Long id) {
+        return repository.existsById(id);
+    }
+
     public void eliminar(Long id) {
         logger.info("Eliminando vehiculo con ID: {}", id);
         Vehiculo vehiculo = repository.findById(id)

@@ -138,6 +138,10 @@ public class AlquilerService {
         return toResponseDTO(actualizado);
     }
 
+    public boolean existePorId(Long id) {
+        return alquilerRepository.existsById(id);
+    }
+
     public void eliminar(Long id) {
         logger.info("Eliminando alquiler con ID: {}", id);
         Alquiler alquiler = alquilerRepository.findById(id)

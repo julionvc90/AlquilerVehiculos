@@ -57,6 +57,12 @@ public class VehiculoController {
         return ResponseEntity.ok(service.actualizar(id, dto));
     }
 
+    @GetMapping("/{id}/existe")
+    public ResponseEntity<Boolean> existe(@PathVariable Long id) {
+        logger.info("GET /api/vehiculos/{}/existe - Verificar existencia", id);
+        return ResponseEntity.ok(service.existePorId(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/vehiculos/{} - Eliminar vehiculo", id);
