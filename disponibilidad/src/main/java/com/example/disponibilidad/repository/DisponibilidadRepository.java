@@ -15,4 +15,10 @@ public interface DisponibilidadRepository extends JpaRepository<Disponibilidad, 
             LocalDate inicio,
             LocalDate fin
     );
+
+    List<Disponibilidad> findByVehiculoIdAndDisponibleFalseAndFechaFinGreaterThanEqualAndFechaInicioLessThanEqual(
+            Long vehiculoId,
+            LocalDate inicio,
+            LocalDate fin
+    );
 }

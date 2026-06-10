@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ReservaRequestDTO {
 
-    @NotNull
     private Long idReserva;
 
     @NotNull

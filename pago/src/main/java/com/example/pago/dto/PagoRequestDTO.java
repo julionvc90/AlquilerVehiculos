@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PagoRequestDTO {
 
-    @NotNull(message = "El pagoId es obligatorio")
     private Long idPago;
 
     @NotNull(message = "El idReserva es obligatorio")

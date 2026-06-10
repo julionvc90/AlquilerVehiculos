@@ -80,7 +80,7 @@ public class DisponibilidadService {
         logger.info("Validando disponibilidad del vehiculo ID: {} desde {} hasta {}", vehiculoId, inicio, fin);
 
         boolean disponible = repository
-                .findByVehiculoIdAndFechaFinGreaterThanEqualAndFechaInicioLessThanEqual(
+                .findByVehiculoIdAndDisponibleFalseAndFechaFinGreaterThanEqualAndFechaInicioLessThanEqual(
                         vehiculoId, inicio, fin)
                 .isEmpty();
 

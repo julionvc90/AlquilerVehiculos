@@ -49,5 +49,4 @@ public class VehiculoRequestDTO {
 
     private Double tarifaDiaria;
     private String ubicacion;
-    private boolean activo;
 }
