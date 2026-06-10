@@ -21,5 +21,5 @@ public class DisponibilidadRequestDTO {
     private LocalDate fechaFin;
 
     @NotNull(message = "Debe Indicar Si El Vehiculo Esta Disponible")
-    private Boolean Disponible;
+    private Boolean disponible;
 }
