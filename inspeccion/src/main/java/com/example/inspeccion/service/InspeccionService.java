@@ -5,6 +5,8 @@ import com.example.inspeccion.dto.InspeccionResponseDTO;
 import com.example.inspeccion.exception.ResourceNotFoundException;
 import com.example.inspeccion.model.Inspeccion;
 import com.example.inspeccion.repository.InspeccionRepository;
+import com.example.inspeccion.webclient.AlquilerClient;
+import com.example.inspeccion.webclient.VehiculoClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,13 @@ public class InspeccionService {
     private static final Logger logger = LoggerFactory.getLogger(InspeccionService.class);
 
     private final InspeccionRepository repository;
+    private final VehiculoClient vehiculoClient;
+    private final AlquilerClient alquilerClient;
 
-    public InspeccionService(InspeccionRepository repository) {
+    public InspeccionService(InspeccionRepository repository, VehiculoClient vehiculoClient, AlquilerClient alquilerClient) {
         this.repository = repository;
+        this.vehiculoClient = vehiculoClient;
+        this.alquilerClient = alquilerClient;
     }
 
     public List<InspeccionResponseDTO> listar() {
@@ -56,6 +62,16 @@ public class InspeccionService {
 
     public InspeccionResponseDTO crear(InspeccionRequestDTO dto) {
         logger.info("Creando inspeccion para alquiler ID: {}, vehiculo ID: {}", dto.getAlquilerId(), dto.getVehiculoId());
+
+        if (dto.getAlquilerId() != null && !alquilerClient.existeAlquiler(dto.getAlquilerId())) {
+            logger.error("Alquiler ID {} no existe en el sistema", dto.getAlquilerId());
+            throw new IllegalArgumentException("El alquiler especificado no existe en el sistema");
+        }
+        if (dto.getVehiculoId() != null && !vehiculoClient.existeVehiculo(dto.getVehiculoId())) {
+            logger.error("Vehiculo ID {} no existe en el sistema", dto.getVehiculoId());
+            throw new IllegalArgumentException("El vehiculo especificado no existe en el sistema");
+        }
+
         Inspeccion inspeccion = toEntity(dto);
         Inspeccion guardado = repository.save(inspeccion);
         logger.info("Inspeccion creada exitosamente con ID: {}", guardado.getId());
@@ -68,9 +84,17 @@ public class InspeccionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Inspeccion", id));
 
         if (dto.getAlquilerId() != null) {
+            if (!alquilerClient.existeAlquiler(dto.getAlquilerId())) {
+                logger.error("Alquiler ID {} no existe en el sistema", dto.getAlquilerId());
+                throw new IllegalArgumentException("El alquiler especificado no existe en el sistema");
+            }
             inspeccion.setAlquilerId(dto.getAlquilerId());
         }
         if (dto.getVehiculoId() != null) {
+            if (!vehiculoClient.existeVehiculo(dto.getVehiculoId())) {
+                logger.error("Vehiculo ID {} no existe en el sistema", dto.getVehiculoId());
+                throw new IllegalArgumentException("El vehiculo especificado no existe en el sistema");
+            }
             inspeccion.setVehiculoId(dto.getVehiculoId());
         }
         inspeccion.setFechaInspeccion(dto.getFechaInspeccion());

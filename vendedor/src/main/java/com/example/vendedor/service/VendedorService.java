@@ -5,6 +5,7 @@ import com.example.vendedor.dto.VendedorResponseDTO;
 import com.example.vendedor.exception.ResourceNotFoundException;
 import com.example.vendedor.model.Vendedor;
 import com.example.vendedor.repository.VendedorRepository;
+import com.example.vendedor.webclient.UsuarioClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,11 @@ public class VendedorService {
     private static final Logger logger = LoggerFactory.getLogger(VendedorService.class);
 
     private final VendedorRepository repository;
+    private final UsuarioClient usuarioClient;
 
-    public VendedorService(VendedorRepository repository) {
+    public VendedorService(VendedorRepository repository, UsuarioClient usuarioClient) {
         this.repository = repository;
+        this.usuarioClient = usuarioClient;
     }
 
     public List<VendedorResponseDTO> listar() {
@@ -44,6 +47,10 @@ public class VendedorService {
             logger.warn("Conflicto: RUT {} ya existe", dto.getRut());
             throw new IllegalArgumentException("Ya existe un vendedor con el RUT: " + dto.getRut());
         }
+        if (dto.getUsuarioId() != null && !usuarioClient.existeUsuario(dto.getUsuarioId())) {
+            logger.error("Usuario ID {} no existe en el sistema", dto.getUsuarioId());
+            throw new IllegalArgumentException("El usuario especificado no existe en el sistema");
+        }
         Vendedor vendedor = toEntity(dto);
         Vendedor guardado = repository.save(vendedor);
         logger.info("Vendedor creado exitosamente con ID: {}", guardado.getId());
@@ -59,6 +66,11 @@ public class VendedorService {
                 && repository.existsByRut(dto.getRut())) {
             logger.warn("Conflicto: RUT {} ya existe en otro vendedor", dto.getRut());
             throw new IllegalArgumentException("Ya existe otro vendedor con el RUT: " + dto.getRut());
+        }
+
+        if (dto.getUsuarioId() != null && !usuarioClient.existeUsuario(dto.getUsuarioId())) {
+            logger.error("Usuario ID {} no existe en el sistema", dto.getUsuarioId());
+            throw new IllegalArgumentException("El usuario especificado no existe en el sistema");
         }
 
         vendedor.setRut(dto.getRut());
