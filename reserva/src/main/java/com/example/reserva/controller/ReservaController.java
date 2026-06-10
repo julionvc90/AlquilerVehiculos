@@ -14,8 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/reserva")
-@Valid
-
 public class ReservaController {
 
     private final ReservaService reservaService;

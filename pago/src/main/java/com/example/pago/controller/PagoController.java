@@ -14,8 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/pago")
-@Valid
-
 public class PagoController {
 
     private final PagoService pagoService;

@@ -1,8 +1,17 @@
 // Claudio Carril 2026-06
 package com.example.multa.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,11 +32,9 @@ public class Multa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMulta;
 
-    @Column(nullable = false, length = 14)
     @NotNull(message = "El IdReserva de Multa debe ser Ingresado")
     private Long idReserva;
 
-    @Column(nullable = false, length = 14)
     @NotNull(message = "El IdVehiculo de Multa debe ser Ingresado")
     private Long idVehiculo;
 
@@ -39,7 +46,6 @@ public class Multa {
     @NotNull(message = "La Fecha de la Multa debe ser Ingresada")
     private LocalDate fechaMulta;
 
-    @Column(nullable = false, length = 14)
     @NotNull(message = "La Monto de la Multa debe ser Ingresada")
     private BigDecimal montoMulta;
 

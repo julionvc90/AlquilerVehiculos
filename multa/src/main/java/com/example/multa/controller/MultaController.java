@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/multa")
-@Valid
 public class MultaController {
 
     private final MultaService multaService;

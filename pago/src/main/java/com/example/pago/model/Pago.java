@@ -28,24 +28,18 @@ public class Pago {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Numero de Pago, no puede estar vacia")
-    @Column(nullable = false, length = 14)
     private Long idPago;
 
     @NotNull(message = "Numero de la reserva, no puede estar vacia")
-    @Column(nullable = false, length = 14)
     private Long idReserva;
 
     @NotNull(message = "Numero del vehiculo, no puede estar vacia")
-    @Column(nullable = false, length = 14)
     private Long idVehiculo;
 
     @NotNull(message = "La Fecha de Pago, no puede estar vacia")
-    @Column(nullable = false)
     private LocalDate fechaPago;
 
     @NotNull(message = "El Monto del Pago, no puede estar vacia")
-    @Column(nullable = false, length = 14)
     private BigDecimal montoPago;
 
     @NotBlank(message = "El metodo de pago, no puede estar vacio(Efectivo, Tarjeta, Transferencia, WebPay")
