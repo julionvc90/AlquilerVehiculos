@@ -5,6 +5,7 @@ import com.example.multa.dto.MultaResponseDTO;
 import com.example.multa.exception.MultaNotFoundException;
 import com.example.multa.model.Multa;
 import com.example.multa.repository.MultaRepository;
+import com.example.multa.webclient.ReservaClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,19 @@ public class MultaService {
     private static final Logger logger = LoggerFactory.getLogger(MultaService.class);
 
     private final MultaRepository repository;
+    private final ReservaClient reservaClient;
 
-    public MultaService(MultaRepository repository) {
+    public MultaService(MultaRepository repository, ReservaClient reservaClient) {
         this.repository = repository;
+        this.reservaClient = reservaClient;
     }
 
     public MultaResponseDTO crearMulta(MultaRequestDTO dto) {
         logger.info("Creando multa para reserva ID: {}, vehiculo ID: {}",
                 dto.getIdReserva(), dto.getIdVehiculo());
+
+        // Validar que la reserva existe
+        reservaClient.obtenerReserva(dto.getIdReserva());
 
         Multa multa = Multa.builder()
                 .idReserva(dto.getIdReserva())
@@ -68,6 +74,11 @@ public class MultaService {
                     logger.error("Multa no encontrada con ID: {}", id);
                     return new MultaNotFoundException("Multa no encontrada con ID: " + id);
                 });
+
+        // Validar reserva si cambio
+        if (!dto.getIdReserva().equals(multa.getIdReserva())) {
+            reservaClient.obtenerReserva(dto.getIdReserva());
+        }
 
         multa.setIdReserva(dto.getIdReserva());
         multa.setIdVehiculo(dto.getIdVehiculo());

@@ -5,6 +5,7 @@ import com.example.pago.dto.PagoResponseDTO;
 import com.example.pago.exception.PagoNotFoundException;
 import com.example.pago.model.Pago;
 import com.example.pago.repository.PagoRepository;
+import com.example.pago.webclient.ReservaClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,19 @@ public class PagoService {
     private static final Logger logger = LoggerFactory.getLogger(PagoService.class);
 
     private final PagoRepository repository;
+    private final ReservaClient reservaClient;
 
-    public PagoService(PagoRepository repository) {
+    public PagoService(PagoRepository repository, ReservaClient reservaClient) {
         this.repository = repository;
+        this.reservaClient = reservaClient;
     }
 
     public PagoResponseDTO crearPago(PagoRequestDTO dto) {
         logger.info("Creando pago para reserva ID: {}, vehiculo ID: {}",
                 dto.getIdReserva(), dto.getIdVehiculo());
+
+        // Validar que la reserva existe
+        reservaClient.obtenerReserva(dto.getIdReserva());
 
         Pago pago = Pago.builder()
                 .idPago(dto.getIdPago())
@@ -69,6 +75,11 @@ public class PagoService {
                     logger.error("Pago no encontrado con ID: {}", id);
                     return new PagoNotFoundException("Pago no encontrado con ID: " + id);
                 });
+
+        // Validar reserva si cambio
+        if (!dto.getIdReserva().equals(pago.getIdReserva())) {
+            reservaClient.obtenerReserva(dto.getIdReserva());
+        }
 
         pago.setIdPago(dto.getIdPago());
         pago.setIdReserva(dto.getIdReserva());
