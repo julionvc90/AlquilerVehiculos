@@ -18,6 +18,9 @@ public class AlquilerRequestDTO {
     @NotNull(message = "El Alquiler Debe Tener Un Vehiculo")
     private Long vehiculoId;
 
+    @NotNull(message = "El Alquiler Debe Tener Una Reserva Asociada")
+    private Long reservaId;
+
     @NotNull(message = "El Alquiler Debe Tener Una Fecha De Inicio")
     private LocalDate fechaInicio;
 

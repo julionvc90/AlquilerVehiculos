@@ -36,6 +36,12 @@ public class PagoController {
         return pagoService.obtenerPorId(id);
     }
 
+    @GetMapping("/reserva/{reservaId}")
+    public List<PagoResponseDTO> buscarPorReserva(@PathVariable Long reservaId) {
+        logger.info("GET /api/pago/reserva/{} - Buscar pagos por reserva", reservaId);
+        return pagoService.buscarPorReservaId(reservaId);
+    }
+
     @GetMapping
     public List<PagoResponseDTO> listar() {
         logger.info("GET /api/pago - Listar todos los pagos");

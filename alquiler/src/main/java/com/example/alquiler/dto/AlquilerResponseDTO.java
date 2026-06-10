@@ -16,6 +16,7 @@ public class AlquilerResponseDTO {
     private long id;
     private long clienteId;
     private long vehiculoId;
+    private Long reservaId;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private Integer dias;

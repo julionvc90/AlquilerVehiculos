@@ -1,6 +1,5 @@
 package com.example.alquiler.model;
 
-import com.example.alquiler.model.EstadoAlquiler;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +23,8 @@ public class Alquiler {
 
     @Column(nullable = false)
     private Long vehiculoId;
+
+    private Long reservaId;
 
     @Column(nullable = false)
     private LocalDate fechaInicio;

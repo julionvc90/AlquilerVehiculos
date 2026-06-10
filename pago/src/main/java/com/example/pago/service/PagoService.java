@@ -95,6 +95,14 @@ public class PagoService {
         return convertirDTO(actualizado);
     }
 
+    public List<PagoResponseDTO> buscarPorReservaId(Long reservaId) {
+        logger.info("Buscando pagos de la reserva ID: {}", reservaId);
+        return repository.findByIdReserva(reservaId)
+                .stream()
+                .map(this::convertirDTO)
+                .collect(Collectors.toList());
+    }
+
     public void eliminarPago(Long id) {
         logger.info("Eliminando pago con ID: {}", id);
         Pago pago = repository.findById(id)
