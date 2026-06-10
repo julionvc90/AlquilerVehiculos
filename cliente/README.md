@@ -27,10 +27,8 @@ Microservicio encargado de la gestion de clientes del Sistema de Alquiler de Veh
 ```
 src/main/java/com/example/cliente/
 ├── ClienteApplication.java
-├── client/
+├── webclient/
 │   └── UsuarioClient.java        # Comunicacion con microservicio Usuario
-├── config/
-│   └── WebClientConfig.java      # Configuracion de WebClient con timeouts
 ├── controller/
 │   └── ClienteController.java    # Endpoints REST (ResponseEntity, @Valid)
 ├── dto/
@@ -75,16 +73,6 @@ src/main/java/com/example/cliente/
 }
 ```
 
-### Ejemplo de Error Response
-
-```json
-{
-  "status": 404,
-  "message": "Cliente no encontrado con ID: 99",
-  "timestamp": "2026-06-04T17:30:00"
-}
-```
-
 ---
 
 ## Modelo de Datos
@@ -106,7 +94,6 @@ src/main/java/com/example/cliente/
 ### Relaciones
 
 - **`usuario_id`**: Referencia logica al microservicio `usuario`. La verificacion de existencia se realiza via `UsuarioClient` (WebClient) al puerto `8082`.
-- **IDs con prefijo**: Los IDs de cliente inician en `200000` para identificarlos rapidamente en el sistema.
 
 > **Nota**: Configurar el AUTO_INCREMENT en MySQL con: `ALTER TABLE cliente AUTO_INCREMENT = 200000;`
 
@@ -130,13 +117,6 @@ cd cliente
 ./mvnw spring-boot:run
 ```
 4. El microservicio se levanta en `http://localhost:8081`
-
-### Inicializar secuencia de IDs
-
-Despues de la primera ejecucion (cuando Hibernate cree las tablas):
-```sql
-ALTER TABLE cliente AUTO_INCREMENT = 200000;
-```
 
 ---
 

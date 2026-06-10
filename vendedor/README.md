@@ -27,10 +27,8 @@ Microservicio encargado de la gestion de vendedores del Sistema de Alquiler de V
 ```
 src/main/java/com/example/vendedor/
 ├── VendedorApplication.java
-├── client/
+├── webclient/
 │   └── UsuarioClient.java        # Comunicacion con microservicio Usuario
-├── config/
-│   └── WebClientConfig.java      # Configuracion de WebClient con timeouts
 ├── controller/
 │   └── VendedorController.java   # Endpoints REST (ResponseEntity, @Valid)
 ├── dto/
@@ -117,13 +115,6 @@ cd vendedor
 ./mvnw spring-boot:run
 ```
 4. El microservicio se levanta en `http://localhost:8083`
-
-### Inicializar secuencia de IDs
-
-Despues de la primera ejecucion:
-```sql
-ALTER TABLE vendedor AUTO_INCREMENT = 100000;
-```
 
 ---
 

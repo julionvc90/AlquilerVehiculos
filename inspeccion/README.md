@@ -37,7 +37,7 @@ src/main/java/com/example/inspeccion/
 │   └── InspeccionResponseDTO.java # DTO de salida
 ├── exception/
 │   ├── ResourceNotFoundException.java
-│   ├── ErrorResponse.java        # Estructura consistente de errores
+│   ├── ErrorResponse.java
 │   └── GlobalExceptionHandler.java # @ControllerAdvice centralizado
 ├── model/
 │   └── Inspeccion.java           # Entidad JPA
@@ -57,8 +57,8 @@ src/main/java/com/example/inspeccion/
 | `GET` | `/api/inspecciones/{id}` | Buscar inspeccion por ID | `200 OK` / `404 Not Found` |
 | `GET` | `/api/inspecciones/alquiler/{alquilerId}` | Buscar por alquiler | `200 OK` |
 | `GET` | `/api/inspecciones/vehiculo/{vehiculoId}` | Buscar por vehiculo | `200 OK` |
-| `GET` | `/api/inspecciones/tipo/{tipo}` | Filtrar por tipo (PRE_ALQUILER / POST_ALQUILER) | `200 OK` |
-| `POST` | `/api/inspecciones` | Crear nueva inspeccion | `201 Created` / `400 Bad Request` |
+| `GET` | `/api/inspecciones/tipo/{tipo}` | Filtrar por tipo de inspeccion | `200 OK` |
+| `POST` | `/api/inspecciones` | Crear nueva inspeccion (valida alquiler y vehiculo) | `201 Created` / `400 Bad Request` |
 | `PUT` | `/api/inspecciones/{id}` | Actualizar inspeccion | `200 OK` / `400 Bad Request` / `404 Not Found` |
 | `DELETE` | `/api/inspecciones/{id}` | Eliminar inspeccion | `204 No Content` / `404 Not Found` |
 
@@ -66,11 +66,11 @@ src/main/java/com/example/inspeccion/
 
 ```json
 {
-  "alquilerId": 800001,
+  "alquilerId": 1,
   "vehiculoId": 1,
-  "fechaInspeccion": "2026-06-04T10:00:00",
-  "tipoInspeccion": "PRE_ALQUILER",
-  "resultado": "APROBADO",
+  "fechaInspeccion": "2025-07-05T18:00:00",
+  "tipoInspeccion": "Devolucion",
+  "resultado": "Aprobado",
   "observaciones": "Vehiculo en buen estado",
   "inspector": "Carlos Rodriguez"
 }
@@ -84,7 +84,7 @@ src/main/java/com/example/inspeccion/
 
 | Campo | Tipo | Restricciones |
 |---|---|---|
-| `id` | `BIGINT` | PK, AUTO_INCREMENT (inicia en 400000) |
+| `id` | `BIGINT` | PK, AUTO_INCREMENT |
 | `alquiler_id` | `BIGINT` | FK logica → microservicio Alquiler |
 | `vehiculo_id` | `BIGINT` | FK logica → microservicio Vehiculo |
 | `fecha_inspeccion` | `DATETIME` | NOT NULL |
@@ -93,23 +93,6 @@ src/main/java/com/example/inspeccion/
 | `observaciones` | `VARCHAR(500)` | Opcional |
 | `inspector` | `VARCHAR(100)` | Opcional |
 | `activo` | `BOOLEAN` | NOT NULL, default `true` |
-
-### Tipos de Inspeccion
-
-| Tipo | Descripcion |
-|---|---|
-| `PRE_ALQUILER` | Se realiza antes de entregar el vehiculo |
-| `POST_ALQUILER` | Se realiza al devolver el vehiculo |
-
-### Resultados
-
-| Resultado | Descripcion |
-|---|---|
-| `APROBADO` | Sin danos ni observaciones |
-| `RECHAZADO` | Con danos graves |
-| `CON_OBSERVACIONES` | Con detalles menores |
-
-> **Nota:** Configurar el AUTO_INCREMENT en MySQL con: `ALTER TABLE inspeccion AUTO_INCREMENT = 400000;`
 
 ---
 
@@ -123,7 +106,7 @@ src/main/java/com/example/inspeccion/
 
 ### Pasos
 
-1. Configurar las credenciales de MySQL en `src/main/resources/application.properties`
+1. Configurar credenciales MySQL en `src/main/resources/application.properties`
 2. Crear la base de datos: `CREATE DATABASE inspeccion_db;`
 3. Ejecutar:
 ```bash
@@ -138,8 +121,8 @@ cd inspeccion
 
 | Microservicio | Puerto | Via | Descripcion |
 |---|---|---|---|
-| `alquiler` | 8085 | WebClient | Verificar existencia de alquiler |
-| `vehiculo` | 8080 | WebClient | Verificar existencia de vehiculo |
+| `alquiler` | 8086 | WebClient | Verificar existencia del alquiler |
+| `vehiculo` | 8084 | WebClient | Verificar existencia del vehiculo |
 
 ---
 
@@ -157,5 +140,5 @@ cd inspeccion
 ## Configuracion de Puerto
 
 ```
-server.port=8084
+server.port=8087
 ```

@@ -16,7 +16,7 @@ Microservicio encargado de la gestion de usuarios del Sistema de Alquiler de Veh
 | Base de Datos | MySQL |
 | Driver | mysql-connector-j |
 | Validaciones | Jakarta Bean Validation (JSR 380) |
-| Comunicacion | Spring WebMVC (REST) + WebClient (WebFlux) |
+| Comunicacion | Spring WebMVC (REST) |
 | Utilidades | Lombok, SLF4J |
 | Build | Maven |
 
@@ -27,10 +27,6 @@ Microservicio encargado de la gestion de usuarios del Sistema de Alquiler de Veh
 ```
 src/main/java/com/example/usuario/
 ├── UsuarioApplication.java
-├── client/
-│   └── UsuarioClient.java        # Placeholder (es consumido por otros)
-├── config/
-│   └── WebClientConfig.java      # Configuracion de WebClient con timeouts
 ├── controller/
 │   └── UsuarioController.java    # Endpoints REST (ResponseEntity, @Valid)
 ├── dto/
@@ -112,7 +108,7 @@ src/main/java/com/example/usuario/
 
 ### Relaciones
 
-- **`cliente.usuario_id`** y **`vendedor.usuario_id`** referencian el ID de este microservicio. La verificacion se realiza via `GET /api/usuarios/{id}/existe`.
+- **`cliente.usuario_id`** y **`vendedor.usuario_id`** referencian el ID de este microservicio.
 
 > **Nota:** Configurar el AUTO_INCREMENT en MySQL con: `ALTER TABLE usuario AUTO_INCREMENT = 300000;`
 
@@ -137,13 +133,6 @@ cd usuario
 ```
 4. El microservicio se levanta en `http://localhost:8082`
 
-### Inicializar secuencia de IDs
-
-Despues de la primera ejecucion (cuando Hibernate cree las tablas):
-```sql
-ALTER TABLE usuario AUTO_INCREMENT = 300000;
-```
-
 ---
 
 ## Consumido por otros Microservicios
@@ -159,7 +148,7 @@ ALTER TABLE usuario AUTO_INCREMENT = 300000;
 
 | Codigo HTTP | Causa | Ejemplo |
 |---|---|---|
-| `400 BAD REQUEST` | Validaciones de DTO fallidas | Campo `username` vacio o menor a 3 caracteres |
+| `400 BAD REQUEST` | Validaciones de DTO fallidas | Campo `username` vacio |
 | `404 NOT FOUND` | Recurso no encontrado | Usuario con ID inexistente |
 | `409 CONFLICT` | Violacion de regla de negocio | Username o email duplicado |
 | `500 INTERNAL SERVER ERROR` | Error inesperado del servidor | Falla de conexion a BD |
@@ -174,8 +163,6 @@ ALTER TABLE usuario AUTO_INCREMENT = 300000;
 | Email unico | `UsuarioService.crear()` y `actualizar()` |
 | Username, password, email, rol obligatorios | `UsuarioRequestDTO` via `@NotBlank` |
 | Email con formato valido | `UsuarioRequestDTO` via `@Email` |
-| Username entre 3 y 50 caracteres | `UsuarioRequestDTO` via `@Size` |
-| Password entre 6 y 255 caracteres | `UsuarioRequestDTO` via `@Size` |
 | Password NUNCA se expone en respuestas | `UsuarioResponseDTO` (sin campo password) |
 
 ---
