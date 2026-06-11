@@ -3,6 +3,11 @@
 **Proyecto Semestral — Arquitectura de Microservicios**  
 Desarrollo FullStack I · Ingenieria en Informatica
 
+Integrantes:
+- Benjamin Arellano
+- Julio Navarro
+- Claudio Carril
+
 ---
 
 ## 📋 Descripcion General
