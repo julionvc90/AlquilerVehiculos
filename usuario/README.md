@@ -131,7 +131,7 @@ src/main/java/com/example/usuario/
 cd usuario
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8082`
+4. El microservicio se levanta en `http://localhost:9091`
 
 ---
 
@@ -139,8 +139,8 @@ cd usuario
 
 | Microservicio | Endpoint consumido | Via |
 |---|---|---|
-| `cliente` | `GET /api/usuarios/{id}/existe` | WebClient (puerto 8082) |
-| `vendedor` | `GET /api/usuarios/{id}/existe` | WebClient (puerto 8082) |
+| `cliente` | `GET /api/usuarios/{id}/existe` | WebClient (puerto 9091) |
+| `vendedor` | `GET /api/usuarios/{id}/existe` | WebClient (puerto 9091) |
 
 ---
 
@@ -170,5 +170,5 @@ cd usuario
 ## Configuracion de Puerto
 
 ```
-server.port=8082
+server.port=9091
 ```

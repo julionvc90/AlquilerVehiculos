@@ -21,7 +21,7 @@ public class VendedorClient {
         HttpClient httpClient = HttpClient.create()
                 .responseTimeout(Duration.ofSeconds(10));
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8083")
+                .baseUrl("http://localhost:9093")
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }

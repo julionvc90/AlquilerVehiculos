@@ -20,7 +20,7 @@ public class UsuarioClient {
         HttpClient httpClient = HttpClient.create()
                 .responseTimeout(Duration.ofSeconds(10));
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8082")
+                .baseUrl("http://localhost:9091")
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }

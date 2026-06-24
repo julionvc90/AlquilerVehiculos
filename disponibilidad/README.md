@@ -111,7 +111,7 @@ Response: `true`
 cd disponibilidad
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8085`
+4. El microservicio se levanta en `http://localhost:9095`
 
 ---
 
@@ -119,7 +119,7 @@ cd disponibilidad
 
 | Microservicio | Puerto | Via | Descripcion |
 |---|---|---|---|
-| `vehiculo` | 8084 | WebClient | Validar existencia del vehiculo |
+| `vehiculo` | 9094 | WebClient | Validar existencia del vehiculo |
 
 ---
 
@@ -136,5 +136,5 @@ cd disponibilidad
 ## Configuracion de Puerto
 
 ```
-server.port=8085
+server.port=9095
 ```

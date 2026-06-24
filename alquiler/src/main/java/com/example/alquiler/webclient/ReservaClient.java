@@ -21,7 +21,7 @@ public class ReservaClient {
         HttpClient httpClient = HttpClient.create()
                 .responseTimeout(Duration.ofSeconds(10));
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8089")
+                .baseUrl("http://localhost:9099")
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }

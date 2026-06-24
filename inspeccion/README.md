@@ -113,7 +113,7 @@ src/main/java/com/example/inspeccion/
 cd inspeccion
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8087`
+4. El microservicio se levanta en `http://localhost:9096`
 
 ---
 
@@ -121,8 +121,8 @@ cd inspeccion
 
 | Microservicio | Puerto | Via | Descripcion |
 |---|---|---|---|
-| `alquiler` | 8086 | WebClient | Verificar existencia del alquiler |
-| `vehiculo` | 8084 | WebClient | Verificar existencia del vehiculo |
+| `alquiler` | 9097 | WebClient | Verificar existencia del alquiler |
+| `vehiculo` | 9094 | WebClient | Verificar existencia del vehiculo |
 
 ---
 
@@ -140,5 +140,5 @@ cd inspeccion
 ## Configuracion de Puerto
 
 ```
-server.port=8087
+server.port=9096
 ```

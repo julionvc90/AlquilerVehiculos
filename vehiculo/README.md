@@ -117,7 +117,7 @@ src/main/java/com/example/vehiculo/
 cd vehiculo
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8084`
+4. El microservicio se levanta en `http://localhost:9094`
 
 ---
 
@@ -125,7 +125,7 @@ cd vehiculo
 
 | Microservicio | Puerto | Via | Descripcion |
 |---|---|---|---|
-| `vendedor` | 8083 | WebClient | Validar existencia del vendedor |
+| `vendedor` | 9093 | WebClient | Validar existencia del vendedor |
 
 ---
 
@@ -142,5 +142,5 @@ cd vehiculo
 ## Configuracion de Puerto
 
 ```
-server.port=8084
+server.port=9094
 ```

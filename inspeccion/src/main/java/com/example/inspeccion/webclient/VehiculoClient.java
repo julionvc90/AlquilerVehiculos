@@ -20,7 +20,7 @@ public class VehiculoClient {
         HttpClient httpClient = HttpClient.create()
                 .responseTimeout(Duration.ofSeconds(10));
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8084")
+                .baseUrl("http://localhost:9094")
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }

@@ -23,7 +23,7 @@ public class PagoClient {
         HttpClient httpClient = HttpClient.create()
                 .responseTimeout(Duration.ofSeconds(10));
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8088")
+                .baseUrl("http://localhost:9098")
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }

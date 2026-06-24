@@ -21,7 +21,7 @@ public class DisponibilidadClient {
         HttpClient httpClient = HttpClient.create()
                 .responseTimeout(Duration.ofSeconds(10));
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8085")
+                .baseUrl("http://localhost:9095")
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }

@@ -129,7 +129,7 @@ src/main/java/com/example/alquiler/
 cd alquiler
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8086`
+4. El microservicio se levanta en `http://localhost:9097`
 
 ---
 
@@ -137,11 +137,11 @@ cd alquiler
 
 | Microservicio | Puerto | Via | Descripcion |
 |---|---|---|---|
-| `cliente` | 8081 | WebClient | Validar existencia del cliente |
-| `vehiculo` | 8084 | WebClient | Obtener datos del vehiculo |
-| `disponibilidad` | 8085 | WebClient | Validar disponibilidad del vehiculo |
-| `reserva` | 8089 | WebClient | Validar que la reserva este confirmada |
-| `pago` | 8088 | WebClient | Validar que exista un pago para la reserva |
+| `cliente` | 9092 | WebClient | Validar existencia del cliente |
+| `vehiculo` | 9094 | WebClient | Obtener datos del vehiculo |
+| `disponibilidad` | 9095 | WebClient | Validar disponibilidad del vehiculo |
+| `reserva` | 9099 | WebClient | Validar que la reserva este confirmada |
+| `pago` | 9098 | WebClient | Validar que exista un pago para la reserva |
 
 ---
 
@@ -158,5 +158,5 @@ cd alquiler
 ## Configuracion de Puerto
 
 ```
-server.port=8086
+server.port=9097
 ```

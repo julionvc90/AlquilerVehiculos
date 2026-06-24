@@ -106,7 +106,7 @@ src/main/java/com/example/multa/
 cd multa
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8090`
+4. El microservicio se levanta en `http://localhost:9100`
 
 ---
 
@@ -114,7 +114,7 @@ cd multa
 
 | Microservicio | Puerto | Via | Descripcion |
 |---|---|---|---|
-| `reserva` | 8089 | WebClient | Validar existencia de la reserva |
+| `reserva` | 9099 | WebClient | Validar existencia de la reserva |
 
 ---
 
@@ -131,5 +131,5 @@ cd multa
 ## Configuracion de Puerto
 
 ```
-server.port=8090
+server.port=9100
 ```

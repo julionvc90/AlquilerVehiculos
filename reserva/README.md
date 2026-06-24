@@ -118,7 +118,7 @@ src/main/java/com/example/reserva/
 cd reserva
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8089`
+4. El microservicio se levanta en `http://localhost:9099`
 
 ---
 
@@ -126,9 +126,9 @@ cd reserva
 
 | Microservicio | Puerto | Via | Descripcion |
 |---|---|---|---|
-| `cliente` | 8081 | WebClient | Validar existencia del cliente |
-| `vehiculo` | 8084 | WebClient | Obtener datos del vehiculo |
-| `disponibilidad` | 8085 | WebClient | Validar disponibilidad del vehiculo |
+| `cliente` | 9092 | WebClient | Validar existencia del cliente |
+| `vehiculo` | 9094 | WebClient | Obtener datos del vehiculo |
+| `disponibilidad` | 9095 | WebClient | Validar disponibilidad del vehiculo |
 
 ---
 
@@ -145,5 +145,5 @@ cd reserva
 ## Configuracion de Puerto
 
 ```
-server.port=8089
+server.port=9099
 ```

@@ -93,7 +93,7 @@ src/main/java/com/example/cliente/
 
 ### Relaciones
 
-- **`usuario_id`**: Referencia logica al microservicio `usuario`. La verificacion de existencia se realiza via `UsuarioClient` (WebClient) al puerto `8082`.
+- **`usuario_id`**: Referencia logica al microservicio `usuario`. La verificacion de existencia se realiza via `UsuarioClient` (WebClient) al puerto `9091`.
 
 > **Nota**: Configurar el AUTO_INCREMENT en MySQL con: `ALTER TABLE cliente AUTO_INCREMENT = 200000;`
 
@@ -116,7 +116,7 @@ src/main/java/com/example/cliente/
 cd cliente
 ./mvnw spring-boot:run
 ```
-4. El microservicio se levanta en `http://localhost:8081`
+4. El microservicio se levanta en `http://localhost:9092`
 
 ---
 
@@ -124,7 +124,7 @@ cd cliente
 
 | Microservicio | Puerto | Via | Descripcion |
 |---|---|---|---|
-| `usuario` | 8082 | WebClient | Verificar existencia de usuario por ID |
+| `usuario` | 9091 | WebClient | Verificar existencia de usuario por ID |
 
 ---
 
@@ -153,5 +153,5 @@ cd cliente
 ## Configuracion de Puerto
 
 ```
-server.port=8081
+server.port=9092
 ```

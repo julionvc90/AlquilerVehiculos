@@ -33,16 +33,16 @@ Disponib ─┘                    Inspeccion  Multa
 
 | # | Microservicio | Puerto | BD | Descripcion |
 |---|---|---|---|---|
-| 1 | **usuario** | `8082` | `usuario_db` | Autenticacion y roles (ADMIN, CLIENTE, VENDEDOR) |
-| 2 | **cliente** | `8081` | `cliente_db` | Gestion de clientes (personas que alquilan) |
-| 3 | **vendedor** | `8083` | `vendedor_db` | Gestion de vendedores (empleados) |
-| 4 | **vehiculo** | `8084` | `vehiculo_db` | Catalogo de vehiculos disponibles |
-| 5 | **disponibilidad** | `8085` | `disponibilidad_db` | Control de disponibilidad por fechas |
-| 6 | **reserva** | `8089` | `Reserva_db` | Reserva de vehiculos por clientes |
-| 7 | **pago** | `8088` | `pago_db` | Registro de pagos asociados a reservas |
-| 8 | **alquiler** | `8086` | `alquiler_db` | Orquestacion del alquiler (reserva→pago→activo→finalizado) |
-| 9 | **inspeccion** | `8087` | `inspeccion_db` | Inspecciones de entrega y devolucion |
-| 10 | **multa** | `8090` | `multa_db` | Multas por devolucion tardia o daños |
+| 1 | **usuario** | `9091` | `usuario_db` | Autenticacion y roles (ADMIN, CLIENTE, VENDEDOR) |
+| 2 | **cliente** | `9092` | `cliente_db` | Gestion de clientes (personas que alquilan) |
+| 3 | **vendedor** | `9093` | `vendedor_db` | Gestion de vendedores (empleados) |
+| 4 | **vehiculo** | `9094` | `vehiculo_db` | Catalogo de vehiculos disponibles |
+| 5 | **disponibilidad** | `9095` | `disponibilidad_db` | Control de disponibilidad por fechas |
+| 6 | **reserva** | `9099` | `Reserva_db` | Reserva de vehiculos por clientes |
+| 7 | **pago** | `9098` | `pago_db` | Registro de pagos asociados a reservas |
+| 8 | **alquiler** | `9097` | `alquiler_db` | Orquestacion del alquiler (reserva→pago→activo→finalizado) |
+| 9 | **inspeccion** | `9096` | `inspeccion_db` | Inspecciones de entrega y devolucion |
+| 10 | **multa** | `9100` | `multa_db` | Multas por devolucion tardia o daños |
 
 ---
 
@@ -83,25 +83,25 @@ src/main/java/com/example/[microservicio]/
 ### Comunicacion entre Microservicios
 
 ```
-usuario (8082) ←── cliente (8081)
-usuario (8082) ←── vendedor (8083)
-vendedor (8083) ←── vehiculo (8084)
-vehiculo (8084) ←── disponibilidad (8085)
-vehiculo (8084) ←── inspeccion (8087)
-alquiler (8086) ←── inspeccion (8087)
+usuario (9091) ←── cliente (9092)
+usuario (9091) ←── vendedor (9093)
+vendedor (9093) ←── vehiculo (9094)
+vehiculo (9094) ←── disponibilidad (9095)
+vehiculo (9094) ←── inspeccion (9096)
+alquiler (9097) ←── inspeccion (9096)
 
-cliente (8081) ←── reserva (8089)
-vehiculo (8084) ←── reserva (8089)
-disponibilidad (8085) ←── reserva (8089)
+cliente (9092) ←── reserva (9099)
+vehiculo (9094) ←── reserva (9099)
+disponibilidad (9095) ←── reserva (9099)
 
-reserva (8089) ←── pago (8088)
-reserva (8089) ←── multa (8090)
+reserva (9099) ←── pago (9098)
+reserva (9099) ←── multa (9100)
 
-cliente (8081) ←── alquiler (8086)
-vehiculo (8084) ←── alquiler (8086)
-disponibilidad (8085) ←── alquiler (8086)
-reserva (8089) ←── alquiler (8086)
-pago (8088) ←── alquiler (8086)
+cliente (9092) ←── alquiler (9097)
+vehiculo (9094) ←── alquiler (9097)
+disponibilidad (9095) ←── alquiler (9097)
+reserva (9099) ←── alquiler (9097)
+pago (9098) ←── alquiler (9097)
 ```
 
 ---
@@ -118,7 +118,7 @@ pago (8088) ←── alquiler (8086)
 
 Asegurate que MySQL este corriendo en `localhost:3306` con:
 - **Usuario:** `root`
-- **Contrasena:** `root`
+- **Contrasena:** *(vacia)*
 
 ### Paso 2: Iniciar los microservicios
 
@@ -126,20 +126,20 @@ Deben iniciarse en orden, respetando las dependencias:
 
 ```bash
 # Terminal 1 - Servicios base
-cd usuario    && ./mvnw spring-boot:run   # Puerto 8082
-cd cliente    && ./mvnw spring-boot:run   # Puerto 8081
-cd vendedor   && ./mvnw spring-boot:run   # Puerto 8083
+cd usuario    && ./mvnw spring-boot:run   # Puerto 9091
+cd cliente    && ./mvnw spring-boot:run   # Puerto 9092
+cd vendedor   && ./mvnw spring-boot:run   # Puerto 9093
 
 # Terminal 2 - Servicios intermedios
-cd vehiculo       && ./mvnw spring-boot:run   # Puerto 8084
-cd disponibilidad && ./mvnw spring-boot:run   # Puerto 8085
-cd reserva        && ./mvnw spring-boot:run   # Puerto 8089
+cd vehiculo       && ./mvnw spring-boot:run   # Puerto 9094
+cd disponibilidad && ./mvnw spring-boot:run   # Puerto 9095
+cd reserva        && ./mvnw spring-boot:run   # Puerto 9099
 
 # Terminal 3 - Servicios finales
-cd pago       && ./mvnw spring-boot:run   # Puerto 8088
-cd alquiler   && ./mvnw spring-boot:run   # Puerto 8086
-cd inspeccion && ./mvnw spring-boot:run   # Puerto 8087
-cd multa      && ./mvnw spring-boot:run   # Puerto 8090
+cd pago       && ./mvnw spring-boot:run   # Puerto 9098
+cd alquiler   && ./mvnw spring-boot:run   # Puerto 9097
+cd inspeccion && ./mvnw spring-boot:run   # Puerto 9096
+cd multa      && ./mvnw spring-boot:run   # Puerto 9100
 ```
 
 Cada microservicio crea automaticamente su base de datos al iniciar (`createDatabaseIfNotExist=true`).
@@ -150,58 +150,58 @@ Cada microservicio crea automaticamente su base de datos al iniciar (`createData
 
 ```bash
 # 1. Crear usuario
-curl -X POST http://localhost:8082/api/usuarios \
+curl -X POST http://localhost:9091/api/usuarios \
   -H "Content-Type: application/json" \
   -d '{"username":"jperez","password":"123","email":"jperez@mail.com","rol":"cliente"}'
 
 # 2. Crear cliente
-curl -X POST http://localhost:8081/api/clientes \
+curl -X POST http://localhost:9092/api/clientes \
   -H "Content-Type: application/json" \
   -d '{"rut":"11111111-1","nombre":"Juan","apellido":"Perez","email":"jperez@mail.com","usuarioId":1}'
 
 # 3. Crear vendedor
-curl -X POST http://localhost:8083/api/vendedores \
+curl -X POST http://localhost:9093/api/vendedores \
   -H "Content-Type: application/json" \
   -d '{"rut":"22222222-2","nombre":"Pedro","apellido":"Lopez","email":"plopez@mail.com","usuarioId":2}'
 
 # 4. Crear vehiculo
-curl -X POST http://localhost:8084/api/vehiculos \
+curl -X POST http://localhost:9094/api/vehiculos \
   -H "Content-Type: application/json" \
   -d '{"vendedorId":1,"patente":"AB1234","marca":"Toyota","modelo":"Corolla","anio":2024,"categoria":"Sedan","capacidadPasajeros":"5","color":"Rojo","tarifaDiaria":25000,"ubicacion":"Santiago"}'
 
 # 5. Registrar disponibilidad
-curl -X POST http://localhost:8085/api/disponibilidad \
+curl -X POST http://localhost:9095/api/disponibilidad \
   -H "Content-Type: application/json" \
   -d '{"vehiculoId":1,"fechaInicio":"2025-07-01","fechaFin":"2025-07-10","disponible":true}'
 
 # 6. Crear reserva
-curl -X POST http://localhost:8089/api/reserva \
+curl -X POST http://localhost:9099/api/reserva \
   -H "Content-Type: application/json" \
   -d '{"idCliente":1,"idVehiculo":1,"fechaReserva":"2025-06-20","fechaInicio":"2025-07-01","fechaTermino":"2025-07-05","totalDias":4,"valorDia":25000,"totalReserva":100000,"estadoReserva":"Confirmada","observacionesReserva":"Sin novedades"}'
 
 # 7. Pagar la reserva
-curl -X POST http://localhost:8088/api/pago \
+curl -X POST http://localhost:9098/api/pago \
   -H "Content-Type: application/json" \
   -d '{"idReserva":1,"idVehiculo":1,"fechaPago":"2025-06-21","montoPago":100000,"metodoPago":"Transferencia","estadoPago":"Pagada","transaccionPago":"TXN001"}'
 
 # 8. Crear alquiler (valida reserva confirmada + pago registrado)
-curl -X POST http://localhost:8086/api/alquiler \
+curl -X POST http://localhost:9097/api/alquiler \
   -H "Content-Type: application/json" \
   -d '{"clienteId":1,"vehiculoId":1,"reservaId":1,"fechaInicio":"2025-07-01","fechaFin":"2025-07-05"}'
 
 # 9. Iniciar alquiler (entrega del vehiculo)
-curl -X PUT http://localhost:8086/api/alquiler/iniciar/1
+curl -X PUT http://localhost:9097/api/alquiler/iniciar/1
 
 # 10. Finalizar alquiler (devolucion)
-curl -X PUT http://localhost:8086/api/alquiler/finalizar/1
+curl -X PUT http://localhost:9097/api/alquiler/finalizar/1
 
 # 11. Inspeccion de devolucion
-curl -X POST http://localhost:8087/api/inspecciones \
+curl -X POST http://localhost:9096/api/inspecciones \
   -H "Content-Type: application/json" \
   -d '{"alquilerId":1,"vehiculoId":1,"fechaInspeccion":"2025-07-05T18:00:00","tipoInspeccion":"Devolucion","resultado":"Aprobado","observaciones":"Sin daños","inspector":"Carlos"}'
 
 # 12. Multa por retraso (opcional)
-curl -X POST http://localhost:8090/api/multa \
+curl -X POST http://localhost:9100/api/multa \
   -H "Content-Type: application/json" \
   -d '{"idReserva":1,"idVehiculo":1,"motivoMulta":"Devolucion tardia","montoMulta":50000,"estadoMulta":"Pendiente"}'
 ```
@@ -213,16 +213,16 @@ curl -X POST http://localhost:8090/api/multa \
 ```
 AlquilerVehiculos/
 ├── README.md                    # Este archivo
-├── alquiler/                    # Microservicio Alquiler (8086)
-├── cliente/                     # Microservicio Cliente (8081)
-├── disponibilidad/              # Microservicio Disponibilidad (8085)
-├── inspeccion/                  # Microservicio Inspeccion (8087)
-├── multa/                       # Microservicio Multa (8090)
-├── pago/                        # Microservicio Pago (8088)
-├── reserva/                     # Microservicio Reserva (8089)
-├── usuario/                     # Microservicio Usuario (8082)
-├── vehiculo/                    # Microservicio Vehiculo (8084)
-└── vendedor/                    # Microservicio Vendedor (8083)
+├── alquiler/                    # Microservicio Alquiler (9097)
+├── cliente/                     # Microservicio Cliente (9092)
+├── disponibilidad/              # Microservicio Disponibilidad (9095)
+├── inspeccion/                  # Microservicio Inspeccion (9096)
+├── multa/                       # Microservicio Multa (9100)
+├── pago/                        # Microservicio Pago (9098)
+├── reserva/                     # Microservicio Reserva (9099)
+├── usuario/                     # Microservicio Usuario (9091)
+├── vehiculo/                    # Microservicio Vehiculo (9094)
+└── vendedor/                    # Microservicio Vendedor (9093)
 ```
 
 Cada microservicio contiene su propio `README.md` con documentacion detallada.
