@@ -57,7 +57,9 @@ public class PagoController {
             @PathVariable Long id,
             @Valid @RequestBody PagoRequestDTO dto) {
         logger.info("PUT /api/pago/{} - Actualizar pago", id);
-        return pagoService.actualizarPago(id, dto);
+        PagoResponseDTO actualizado = pagoService.actualizarPago(id, dto);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Pago actualizado correctamente", actualizado));
     }
 
     @DeleteMapping("/{id}")

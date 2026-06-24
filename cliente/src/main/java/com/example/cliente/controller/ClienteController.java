@@ -67,7 +67,8 @@ public class ClienteController {
                                                           @Valid @RequestBody ClienteRequestDTO dto) {
         logger.info("PUT /api/clientes/{} - Actualizar cliente", id);
         ClienteResponseDTO actualizado = service.actualizar(id, dto);
-        return ResponseEntity.ok(actualizado);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Cliente actualizado correctamente", actualizado));
     }
 
     @DeleteMapping("/{id}")

@@ -52,7 +52,9 @@ public class ReservaController {
             @PathVariable Long id,
             @Valid @RequestBody ReservaRequestDTO dto) {
         logger.info("PUT /api/reserva/{} - Actualizar reserva", id);
-        return reservaService.actualizarReserva(id, dto);
+        ReservaResponseDTO actualizado = reservaService.actualizarReserva(id, dto);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Reserva actualizada correctamente", actualizado));
     }
 
     @DeleteMapping("/{id}")

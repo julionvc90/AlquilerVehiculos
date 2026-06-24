@@ -58,7 +58,9 @@ public class VehiculoController {
             @PathVariable Long id,
             @Valid @RequestBody VehiculoRequestDTO dto) {
         logger.info("PUT /api/vehiculos/{} - Actualizar vehiculo", id);
-        return ResponseEntity.ok(service.actualizar(id, dto));
+        VehiculoResponseDTO actualizado = service.actualizar(id, dto);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Vehículo actualizado correctamente", actualizado));
     }
 
     @GetMapping("/{id}/existe")

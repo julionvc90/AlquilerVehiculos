@@ -67,7 +67,8 @@ public class VendedorController {
                                                             @Valid @RequestBody VendedorRequestDTO dto) {
         logger.info("PUT /api/vendedores/{} - Actualizar vendedor", id);
         VendedorResponseDTO actualizado = service.actualizar(id, dto);
-        return ResponseEntity.ok(actualizado);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Vendedor actualizado correctamente", actualizado));
     }
 
     @DeleteMapping("/{id}")

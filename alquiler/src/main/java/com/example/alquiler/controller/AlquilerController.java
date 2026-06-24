@@ -59,7 +59,9 @@ public class AlquilerController {
             @PathVariable Long id,
             @Valid @RequestBody AlquilerRequestDTO dto) {
         logger.info("PUT /api/alquiler/actualizar/{} - Actualizar alquiler", id);
-        return ResponseEntity.ok(service.actualizar(id, dto));
+        AlquilerResponseDTO actualizado = service.actualizar(id, dto);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Alquiler actualizado correctamente", actualizado));
     }
 
     @PutMapping("/iniciar/{id}")

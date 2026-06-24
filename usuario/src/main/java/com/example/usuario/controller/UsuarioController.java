@@ -74,7 +74,8 @@ public class UsuarioController {
                                                           @Valid @RequestBody UsuarioRequestDTO dto) {
         logger.info("PUT /api/usuarios/{} - Actualizar usuario", id);
         UsuarioResponseDTO actualizado = service.actualizar(id, dto);
-        return ResponseEntity.ok(actualizado);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Usuario actualizado correctamente", actualizado));
     }
 
     @DeleteMapping("/{id}")

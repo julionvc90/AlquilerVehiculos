@@ -75,7 +75,9 @@ public class InspeccionController {
     public ResponseEntity<InspeccionResponseDTO> actualizar(@PathVariable Long id,
                                                               @Valid @RequestBody InspeccionRequestDTO dto) {
         logger.info("PUT /api/inspecciones/{} - Actualizar inspeccion", id);
-        return ResponseEntity.ok(service.actualizar(id, dto));
+        InspeccionResponseDTO actualizado = service.actualizar(id, dto);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Inspección actualizada correctamente", actualizado));
     }
 
     @DeleteMapping("/{id}")

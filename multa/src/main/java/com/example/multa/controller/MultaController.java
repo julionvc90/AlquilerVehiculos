@@ -52,7 +52,9 @@ public class MultaController {
             @PathVariable Long id,
             @Valid @RequestBody MultaRequestDTO dto) {
         logger.info("PUT /api/multa/{} - Actualizar multa", id);
-        return multaService.actualizarMulta(id, dto);
+        MultaResponseDTO actualizado = multaService.actualizarMulta(id, dto);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Multa actualizada correctamente", actualizado));
     }
 
     @DeleteMapping("/{id}")

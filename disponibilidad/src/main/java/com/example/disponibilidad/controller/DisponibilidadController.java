@@ -69,7 +69,9 @@ public class DisponibilidadController {
             @PathVariable Long id,
             @Valid @RequestBody DisponibilidadRequestDTO dto) {
         logger.info("PUT /api/disponibilidad/{} - Actualizar disponibilidad", id);
-        return ResponseEntity.ok(service.actualizar(id, dto));
+        DisponibilidadResponseDTO actualizado = service.actualizar(id, dto);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Disponibilidad actualizada correctamente", actualizado));
     }
 
     @DeleteMapping("/{id}")
