@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: inspeccion
+  datasource:
+    url: jdbc:mysql://localhost:3306/inspeccion_db?createDatabaseIfNotExist=true
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+server:
+  port: 9096
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
