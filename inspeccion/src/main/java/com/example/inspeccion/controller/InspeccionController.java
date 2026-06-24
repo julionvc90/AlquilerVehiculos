@@ -4,6 +4,11 @@ import com.example.inspeccion.dto.InspeccionRequestDTO;
 import com.example.inspeccion.dto.InspeccionResponseDTO;
 import com.example.inspeccion.dto.RespuestaExitosa;
 import com.example.inspeccion.service.InspeccionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/inspecciones")
+@Tag(name = "Inspecciones", description = "Gestión de inspecciones de entrega y devolución")
 public class InspeccionController {
 
     private static final Logger logger = LoggerFactory.getLogger(InspeccionController.class);
@@ -33,37 +39,52 @@ public class InspeccionController {
     }
 
     @GetMapping
+    @Operation(summary = "Listar todas las inspecciones")
+    @ApiResponse(responseCode = "200", description = "Lista de inspecciones obtenida")
     public ResponseEntity<List<InspeccionResponseDTO>> listar() {
         logger.info("GET /api/inspecciones - Listar todas las inspecciones");
         return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar inspección por ID")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Inspección encontrada"),
+                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada")})
     public ResponseEntity<InspeccionResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/inspecciones/{} - Buscar inspeccion por ID", id);
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @GetMapping("/alquiler/{alquilerId}")
+    @Operation(summary = "Buscar inspecciones por alquiler")
+    @ApiResponse(responseCode = "200", description = "Lista de inspecciones del alquiler")
     public ResponseEntity<List<InspeccionResponseDTO>> buscarPorAlquiler(@PathVariable Long alquilerId) {
         logger.info("GET /api/inspecciones/alquiler/{} - Buscar por alquiler", alquilerId);
         return ResponseEntity.ok(service.buscarPorAlquilerId(alquilerId));
     }
 
     @GetMapping("/vehiculo/{vehiculoId}")
+    @Operation(summary = "Buscar inspecciones por vehículo")
+    @ApiResponse(responseCode = "200", description = "Lista de inspecciones del vehículo")
     public ResponseEntity<List<InspeccionResponseDTO>> buscarPorVehiculo(@PathVariable Long vehiculoId) {
         logger.info("GET /api/inspecciones/vehiculo/{} - Buscar por vehiculo", vehiculoId);
         return ResponseEntity.ok(service.buscarPorVehiculoId(vehiculoId));
     }
 
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<InspeccionResponseDTO>> buscarPorTipo(@PathVariable String tipo) {
+    @Operation(summary = "Buscar inspecciones por tipo")
+    @ApiResponse(responseCode = "200", description = "Lista de inspecciones filtrada por tipo")
+    public ResponseEntity<List<InspeccionResponseDTO>> buscarPorTipo(
+            @Parameter(description = \"Tipo de inspección (Entrega, Devolucion)\") @PathVariable String tipo) {
         logger.info("GET /api/inspecciones/tipo/{} - Buscar por tipo de inspeccion", tipo);
         return ResponseEntity.ok(service.buscarPorTipo(tipo));
     }
 
     @PostMapping
-    public ResponseEntity<InspeccionResponseDTO> crear(@Valid @RequestBody InspeccionRequestDTO dto) {
+    @Operation(summary = "Crear nueva inspección")
+    @ApiResponses({@ApiResponse(responseCode = "201", description = "Inspección creada correctamente"),
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+    public ResponseEntity<RespuestaExitosa<InspeccionResponseDTO>> crear(@Valid @RequestBody InspeccionRequestDTO dto) {
         logger.info("POST /api/inspecciones - Crear nueva inspeccion");
         InspeccionResponseDTO creado = service.crear(dto);
         return new ResponseEntity<>(
@@ -72,7 +93,11 @@ public class InspeccionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InspeccionResponseDTO> actualizar(@PathVariable Long id,
+    @Operation(summary = "Actualizar inspección")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Inspección actualizada correctamente"),
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada")})
+    public ResponseEntity<RespuestaExitosa<InspeccionResponseDTO>> actualizar(@PathVariable Long id,
                                                               @Valid @RequestBody InspeccionRequestDTO dto) {
         logger.info("PUT /api/inspecciones/{} - Actualizar inspeccion", id);
         InspeccionResponseDTO actualizado = service.actualizar(id, dto);
@@ -81,7 +106,10 @@ public class InspeccionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    @Operation(summary = "Eliminar inspección")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Inspección eliminada correctamente"),
+                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada")})
+    public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/inspecciones/{} - Eliminar inspeccion", id);
         service.eliminar(id);
         return ResponseEntity.ok(

@@ -4,6 +4,10 @@ import com.example.cliente.dto.ClienteRequestDTO;
 import com.example.cliente.dto.ClienteResponseDTO;
 import com.example.cliente.dto.RespuestaExitosa;
 import com.example.cliente.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
+@Tag(name = "Clientes", description = "Operaciones CRUD de gestión de clientes")
 public class ClienteController {
 
     private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
@@ -33,6 +38,8 @@ public class ClienteController {
     }
 
     @GetMapping
+    @Operation(summary = "Listar todos los clientes")
+    @ApiResponse(responseCode = "200", description = "Lista de clientes obtenida")
     public ResponseEntity<List<ClienteResponseDTO>> listar() {
         logger.info("GET /api/clientes - Listar todos los clientes");
         List<ClienteResponseDTO> clientes = service.listar();
@@ -40,6 +47,9 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar cliente por ID")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Cliente encontrado"),
+                   @ApiResponse(responseCode = "404", description = "Cliente no encontrado")})
     public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/clientes/{} - Buscar cliente por ID", id);
         ClienteResponseDTO cliente = service.buscarPorId(id);
@@ -47,6 +57,9 @@ public class ClienteController {
     }
 
     @GetMapping("/rut/{rut}")
+    @Operation(summary = "Buscar cliente por RUT")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Cliente encontrado"),
+                   @ApiResponse(responseCode = "404", description = "Cliente no encontrado")})
     public ResponseEntity<ClienteResponseDTO> buscarPorRut(@PathVariable String rut) {
         logger.info("GET /api/clientes/rut/{} - Buscar cliente por RUT", rut);
         ClienteResponseDTO cliente = service.buscarPorRut(rut);
@@ -54,7 +67,10 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteResponseDTO> crear(@Valid @RequestBody ClienteRequestDTO dto) {
+    @Operation(summary = "Crear nuevo cliente")
+    @ApiResponses({@ApiResponse(responseCode = "201", description = "Cliente creado correctamente"),
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+    public ResponseEntity<RespuestaExitosa<ClienteResponseDTO>> crear(@Valid @RequestBody ClienteRequestDTO dto) {
         logger.info("POST /api/clientes - Crear nuevo cliente");
         ClienteResponseDTO creado = service.crear(dto);
         return new ResponseEntity<>(
@@ -63,7 +79,11 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteResponseDTO> actualizar(@PathVariable Long id,
+    @Operation(summary = "Actualizar cliente")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Cliente actualizado correctamente"),
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+                   @ApiResponse(responseCode = "404", description = "Cliente no encontrado")})
+    public ResponseEntity<RespuestaExitosa<ClienteResponseDTO>> actualizar(@PathVariable Long id,
                                                           @Valid @RequestBody ClienteRequestDTO dto) {
         logger.info("PUT /api/clientes/{} - Actualizar cliente", id);
         ClienteResponseDTO actualizado = service.actualizar(id, dto);
@@ -72,7 +92,10 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    @Operation(summary = "Eliminar cliente")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Cliente eliminado correctamente"),
+                   @ApiResponse(responseCode = "404", description = "Cliente no encontrado")})
+    public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/clientes/{} - Eliminar cliente", id);
         service.eliminar(id);
         return ResponseEntity.ok(

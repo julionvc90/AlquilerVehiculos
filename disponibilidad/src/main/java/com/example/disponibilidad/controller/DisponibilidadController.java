@@ -4,6 +4,11 @@ import com.example.disponibilidad.dto.DisponibilidadRequestDTO;
 import com.example.disponibilidad.dto.DisponibilidadResponseDTO;
 import com.example.disponibilidad.dto.RespuestaExitosa;
 import com.example.disponibilidad.service.DisponibilidadService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +29,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/disponibilidad")
+@Tag(name = "Disponibilidad", description = "Gestión de disponibilidad de vehículos por fechas")
 public class DisponibilidadController {
 
     private static final Logger logger = LoggerFactory.getLogger(DisponibilidadController.class);
@@ -35,19 +41,27 @@ public class DisponibilidadController {
     }
 
     @GetMapping
+    @Operation(summary = "Listar disponibilidades")
+    @ApiResponse(responseCode = "200", description = "Lista de disponibilidades obtenida")
     public ResponseEntity<List<DisponibilidadResponseDTO>> listar() {
         logger.info("GET /api/disponibilidad - Listar todas las disponibilidades");
         return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar disponibilidad por ID")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Disponibilidad encontrada"),
+                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada")})
     public ResponseEntity<DisponibilidadResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/disponibilidad/{} - Buscar disponibilidad por ID", id);
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<DisponibilidadResponseDTO> guardar(@Valid @RequestBody DisponibilidadRequestDTO dto) {
+    @Operation(summary = "Crear nueva disponibilidad")
+    @ApiResponses({@ApiResponse(responseCode = "201", description = "Disponibilidad creada correctamente"),
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+    public ResponseEntity<RespuestaExitosa<DisponibilidadResponseDTO>> guardar(@Valid @RequestBody DisponibilidadRequestDTO dto) {
         logger.info("POST /api/disponibilidad - Crear nueva disponibilidad para vehiculo ID: {}", dto.getVehiculoId());
         DisponibilidadResponseDTO creado = service.guardar(dto);
         return new ResponseEntity<>(
@@ -56,16 +70,22 @@ public class DisponibilidadController {
     }
 
     @GetMapping("/validar")
+    @Operation(summary = "Validar disponibilidad por fechas")
+    @ApiResponse(responseCode = "200", description = "Resultado de la validación")
     public ResponseEntity<Boolean> validarDisponibilidad(
-            @RequestParam Long vehiculoId,
-            @RequestParam LocalDate inicio,
-            @RequestParam LocalDate fin) {
+            @Parameter(description = \"ID del vehículo a validar\") @RequestParam Long vehiculoId,
+            @Parameter(description = \"Fecha de inicio del período\") @RequestParam LocalDate inicio,
+            @Parameter(description = \"Fecha de fin del período\") @RequestParam LocalDate fin) {
         logger.info("GET /api/disponibilidad/validar - Validar vehiculo ID: {} desde {} hasta {}", vehiculoId, inicio, fin);
         return ResponseEntity.ok(service.validarDisponibilidad(vehiculoId, inicio, fin));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DisponibilidadResponseDTO> actualizar(
+    @Operation(summary = "Actualizar disponibilidad")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Disponibilidad actualizada correctamente"),
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada")})
+    public ResponseEntity<RespuestaExitosa<DisponibilidadResponseDTO>> actualizar(
             @PathVariable Long id,
             @Valid @RequestBody DisponibilidadRequestDTO dto) {
         logger.info("PUT /api/disponibilidad/{} - Actualizar disponibilidad", id);
@@ -75,7 +95,10 @@ public class DisponibilidadController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    @Operation(summary = "Eliminar disponibilidad")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Disponibilidad eliminada correctamente"),
+                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada")})
+    public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/disponibilidad/{} - Eliminar disponibilidad", id);
         service.eliminar(id);
         return ResponseEntity.ok(

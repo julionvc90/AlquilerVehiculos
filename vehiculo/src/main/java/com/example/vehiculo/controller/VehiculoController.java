@@ -4,6 +4,10 @@ import com.example.vehiculo.dto.RespuestaExitosa;
 import com.example.vehiculo.dto.VehiculoRequestDTO;
 import com.example.vehiculo.dto.VehiculoResponseDTO;
 import com.example.vehiculo.service.VehiculoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehiculos")
+@Tag(name = "Vehiculos", description = "Operaciones CRUD de gestión de vehículos")
 public class VehiculoController {
 
     private static final Logger logger = LoggerFactory.getLogger(VehiculoController.class);
@@ -33,19 +38,27 @@ public class VehiculoController {
     }
 
     @GetMapping
+    @Operation(summary = "Listar todos los vehículos")
+    @ApiResponse(responseCode = "200", description = "Lista de vehículos obtenida")
     public ResponseEntity<List<VehiculoResponseDTO>> listar() {
         logger.info("GET /api/vehiculos - Listar todos los vehiculos");
         return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar vehículo por ID")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Vehículo encontrado"),
+                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")})
     public ResponseEntity<VehiculoResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/vehiculos/{} - Buscar vehiculo por ID", id);
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<VehiculoResponseDTO> guardar(@Valid @RequestBody VehiculoRequestDTO dto) {
+    @Operation(summary = "Crear nuevo vehículo")
+    @ApiResponses({@ApiResponse(responseCode = "201", description = "Vehículo creado correctamente"),
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+    public ResponseEntity<RespuestaExitosa<VehiculoResponseDTO>> guardar(@Valid @RequestBody VehiculoRequestDTO dto) {
         logger.info("POST /api/vehiculos - Crear nuevo vehiculo con patente: {}", dto.getPatente());
         VehiculoResponseDTO creado = service.guardar(dto);
         return new ResponseEntity<>(
@@ -54,7 +67,11 @@ public class VehiculoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VehiculoResponseDTO> actualizar(
+    @Operation(summary = "Actualizar vehículo")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Vehículo actualizado correctamente"),
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")})
+    public ResponseEntity<RespuestaExitosa<VehiculoResponseDTO>> actualizar(
             @PathVariable Long id,
             @Valid @RequestBody VehiculoRequestDTO dto) {
         logger.info("PUT /api/vehiculos/{} - Actualizar vehiculo", id);
@@ -64,13 +81,18 @@ public class VehiculoController {
     }
 
     @GetMapping("/{id}/existe")
+    @Operation(summary = "Verificar existencia de vehículo")
+    @ApiResponse(responseCode = "200", description = "Resultado de la verificación")
     public ResponseEntity<Boolean> existe(@PathVariable Long id) {
         logger.info("GET /api/vehiculos/{}/existe - Verificar existencia", id);
         return ResponseEntity.ok(service.existePorId(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    @Operation(summary = "Eliminar vehículo")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Vehículo eliminado correctamente"),
+                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")})
+    public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/vehiculos/{} - Eliminar vehiculo", id);
         service.eliminar(id);
         return ResponseEntity.ok(
