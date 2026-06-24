@@ -1,0 +1,19 @@
+package com.example.vehiculo.config;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SwaggerConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                    .title("API alquiler de Vehiculos - Vehiculo")
+                    .version("0.1")
+                    .description("Documentacion de la API alquiler de Vehiculos - Vehiculo"));
+    }
+}
