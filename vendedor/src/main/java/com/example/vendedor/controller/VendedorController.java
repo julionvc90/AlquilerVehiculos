@@ -1,5 +1,6 @@
 package com.example.vendedor.controller;
 
+import com.example.vendedor.dto.RespuestaExitosa;
 import com.example.vendedor.dto.VendedorRequestDTO;
 import com.example.vendedor.dto.VendedorResponseDTO;
 import com.example.vendedor.service.VendedorService;
@@ -56,7 +57,9 @@ public class VendedorController {
     public ResponseEntity<VendedorResponseDTO> crear(@Valid @RequestBody VendedorRequestDTO dto) {
         logger.info("POST /api/vendedores - Crear nuevo vendedor");
         VendedorResponseDTO creado = service.crear(dto);
-        return new ResponseEntity<>(creado, HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Vendedor creado correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -71,6 +74,7 @@ public class VendedorController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/vendedores/{} - Eliminar vendedor", id);
         service.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Vendedor con ID " + id + " eliminado correctamente", null));
     }
 }

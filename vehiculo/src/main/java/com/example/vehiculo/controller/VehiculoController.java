@@ -1,5 +1,6 @@
 package com.example.vehiculo.controller;
 
+import com.example.vehiculo.dto.RespuestaExitosa;
 import com.example.vehiculo.dto.VehiculoRequestDTO;
 import com.example.vehiculo.dto.VehiculoResponseDTO;
 import com.example.vehiculo.service.VehiculoService;
@@ -46,7 +47,10 @@ public class VehiculoController {
     @PostMapping
     public ResponseEntity<VehiculoResponseDTO> guardar(@Valid @RequestBody VehiculoRequestDTO dto) {
         logger.info("POST /api/vehiculos - Crear nuevo vehiculo con patente: {}", dto.getPatente());
-        return new ResponseEntity<>(service.guardar(dto), HttpStatus.CREATED);
+        VehiculoResponseDTO creado = service.guardar(dto);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Vehículo creado correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -67,6 +71,7 @@ public class VehiculoController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/vehiculos/{} - Eliminar vehiculo", id);
         service.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Vehículo con ID " + id + " eliminado correctamente", null));
     }
 }

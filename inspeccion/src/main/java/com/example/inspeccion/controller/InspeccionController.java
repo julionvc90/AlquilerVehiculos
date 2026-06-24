@@ -2,6 +2,7 @@ package com.example.inspeccion.controller;
 
 import com.example.inspeccion.dto.InspeccionRequestDTO;
 import com.example.inspeccion.dto.InspeccionResponseDTO;
+import com.example.inspeccion.dto.RespuestaExitosa;
 import com.example.inspeccion.service.InspeccionService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -64,7 +65,10 @@ public class InspeccionController {
     @PostMapping
     public ResponseEntity<InspeccionResponseDTO> crear(@Valid @RequestBody InspeccionRequestDTO dto) {
         logger.info("POST /api/inspecciones - Crear nueva inspeccion");
-        return new ResponseEntity<>(service.crear(dto), HttpStatus.CREATED);
+        InspeccionResponseDTO creado = service.crear(dto);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Inspección creada correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -78,6 +82,7 @@ public class InspeccionController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/inspecciones/{} - Eliminar inspeccion", id);
         service.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Inspección con ID " + id + " eliminada correctamente", null));
     }
 }

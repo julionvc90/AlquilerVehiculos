@@ -2,6 +2,7 @@ package com.example.alquiler.controller;
 
 import com.example.alquiler.dto.AlquilerRequestDTO;
 import com.example.alquiler.dto.AlquilerResponseDTO;
+import com.example.alquiler.dto.RespuestaExitosa;
 import com.example.alquiler.service.AlquilerService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -47,7 +48,10 @@ public class AlquilerController {
     public ResponseEntity<AlquilerResponseDTO> guardar(@Valid @RequestBody AlquilerRequestDTO dto) {
         logger.info("POST /api/alquiler - Crear nuevo alquiler para cliente ID: {}, vehiculo ID: {}",
                 dto.getClienteId(), dto.getVehiculoId());
-        return new ResponseEntity<>(service.guardar(dto), HttpStatus.CREATED);
+        AlquilerResponseDTO creado = service.guardar(dto);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Alquiler creado correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
@@ -80,6 +84,7 @@ public class AlquilerController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/alquiler/{} - Eliminar alquiler", id);
         service.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Alquiler con ID " + id + " eliminado correctamente", null));
     }
 }

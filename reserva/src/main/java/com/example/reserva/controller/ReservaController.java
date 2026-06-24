@@ -2,6 +2,8 @@ package com.example.reserva.controller;
 
 import com.example.reserva.dto.ReservaRequestDTO;
 import com.example.reserva.dto.ReservaResponseDTO;
+import com.example.reserva.dto.RespuestaExitosa;
+import org.springframework.http.ResponseEntity;
 import com.example.reserva.service.ReservaService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,12 +24,14 @@ public class ReservaController {
     private final ReservaService reservaService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ReservaResponseDTO crearReserva(
+    public ResponseEntity<RespuestaExitosa<ReservaResponseDTO>> crearReserva(
             @Valid @RequestBody ReservaRequestDTO dto) {
         logger.info("POST /api/reserva - Crear nueva reserva para cliente ID: {}, vehiculo ID: {}",
                 dto.getIdCliente(), dto.getIdVehiculo());
-        return reservaService.crearReserva(dto);
+        ReservaResponseDTO creado = reservaService.crearReserva(dto);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Reserva creada correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -52,9 +56,11 @@ public class ReservaController {
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarReserva(
+    public ResponseEntity<RespuestaExitosa<Void>> eliminarReserva(
             @PathVariable Long id) {
         logger.info("DELETE /api/reserva/{} - Eliminar reserva", id);
         reservaService.eliminarReserva(id);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Reserva con ID " + id + " eliminada correctamente", null));
     }
 }

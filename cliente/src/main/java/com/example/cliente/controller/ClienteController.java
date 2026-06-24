@@ -2,6 +2,7 @@ package com.example.cliente.controller;
 
 import com.example.cliente.dto.ClienteRequestDTO;
 import com.example.cliente.dto.ClienteResponseDTO;
+import com.example.cliente.dto.RespuestaExitosa;
 import com.example.cliente.service.ClienteService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -56,7 +57,9 @@ public class ClienteController {
     public ResponseEntity<ClienteResponseDTO> crear(@Valid @RequestBody ClienteRequestDTO dto) {
         logger.info("POST /api/clientes - Crear nuevo cliente");
         ClienteResponseDTO creado = service.crear(dto);
-        return new ResponseEntity<>(creado, HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Cliente creado correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -71,6 +74,7 @@ public class ClienteController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/clientes/{} - Eliminar cliente", id);
         service.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Cliente con ID " + id + " eliminado correctamente", null));
     }
 }

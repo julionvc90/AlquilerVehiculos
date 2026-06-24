@@ -1,5 +1,6 @@
 package com.example.usuario.controller;
 
+import com.example.usuario.dto.RespuestaExitosa;
 import com.example.usuario.dto.UsuarioRequestDTO;
 import com.example.usuario.dto.UsuarioResponseDTO;
 import com.example.usuario.service.UsuarioService;
@@ -63,7 +64,9 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResponseDTO> crear(@Valid @RequestBody UsuarioRequestDTO dto) {
         logger.info("POST /api/usuarios - Crear nuevo usuario");
         UsuarioResponseDTO creado = service.crear(dto);
-        return new ResponseEntity<>(creado, HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Usuario creado correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -78,6 +81,7 @@ public class UsuarioController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/usuarios/{} - Eliminar usuario", id);
         service.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Usuario con ID " + id + " eliminado correctamente", null));
     }
 }

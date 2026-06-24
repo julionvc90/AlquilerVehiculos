@@ -2,6 +2,8 @@ package com.example.pago.controller;
 
 import com.example.pago.dto.PagoRequestDTO;
 import com.example.pago.dto.PagoResponseDTO;
+import com.example.pago.dto.RespuestaExitosa;
+import org.springframework.http.ResponseEntity;
 import com.example.pago.service.PagoService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,11 +24,13 @@ public class PagoController {
     private final PagoService pagoService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public PagoResponseDTO crear(
+    public ResponseEntity<RespuestaExitosa<PagoResponseDTO>> crear(
             @Valid @RequestBody PagoRequestDTO dto) {
         logger.info("POST /api/pago - Crear nuevo pago para reserva ID: {}", dto.getIdReserva());
-        return pagoService.crearPago(dto);
+        PagoResponseDTO creado = pagoService.crearPago(dto);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Pago creado correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -57,9 +61,11 @@ public class PagoController {
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(
+    public ResponseEntity<RespuestaExitosa<Void>> eliminar(
             @PathVariable Long id) {
         logger.info("DELETE /api/pago/{} - Eliminar pago", id);
         pagoService.eliminarPago(id);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Pago con ID " + id + " eliminado correctamente", null));
     }
 }

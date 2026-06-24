@@ -2,6 +2,8 @@ package com.example.multa.controller;
 
 import com.example.multa.dto.MultaRequestDTO;
 import com.example.multa.dto.MultaResponseDTO;
+import com.example.multa.dto.RespuestaExitosa;
+import org.springframework.http.ResponseEntity;
 import com.example.multa.service.MultaService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,11 +25,13 @@ public class MultaController {
     private final MultaService multaService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public MultaResponseDTO crearMulta(
+    public ResponseEntity<RespuestaExitosa<MultaResponseDTO>> crearMulta(
             @Valid @RequestBody MultaRequestDTO dto) {
         logger.info("POST /api/multa - Crear nueva multa para reserva ID: {}", dto.getIdReserva());
-        return multaService.crearMulta(dto);
+        MultaResponseDTO creado = multaService.crearMulta(dto);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Multa creada correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -52,10 +56,12 @@ public class MultaController {
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarMulta(
+    public ResponseEntity<RespuestaExitosa<Void>> eliminarMulta(
             @PathVariable Long id) {
         logger.info("DELETE /api/multa/{} - Eliminar multa", id);
         multaService.eliminarMulta(id);
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Multa con ID " + id + " eliminada correctamente", null));
     }
 
 }

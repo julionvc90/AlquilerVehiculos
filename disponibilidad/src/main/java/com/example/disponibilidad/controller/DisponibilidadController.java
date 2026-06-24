@@ -2,6 +2,7 @@ package com.example.disponibilidad.controller;
 
 import com.example.disponibilidad.dto.DisponibilidadRequestDTO;
 import com.example.disponibilidad.dto.DisponibilidadResponseDTO;
+import com.example.disponibilidad.dto.RespuestaExitosa;
 import com.example.disponibilidad.service.DisponibilidadService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -48,7 +49,10 @@ public class DisponibilidadController {
     @PostMapping
     public ResponseEntity<DisponibilidadResponseDTO> guardar(@Valid @RequestBody DisponibilidadRequestDTO dto) {
         logger.info("POST /api/disponibilidad - Crear nueva disponibilidad para vehiculo ID: {}", dto.getVehiculoId());
-        return new ResponseEntity<>(service.guardar(dto), HttpStatus.CREATED);
+        DisponibilidadResponseDTO creado = service.guardar(dto);
+        return new ResponseEntity<>(
+                new RespuestaExitosa<>("Disponibilidad creada correctamente", creado),
+                HttpStatus.CREATED);
     }
 
     @GetMapping("/validar")
@@ -72,6 +76,7 @@ public class DisponibilidadController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/disponibilidad/{} - Eliminar disponibilidad", id);
         service.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new RespuestaExitosa<>("Disponibilidad con ID " + id + " eliminada correctamente", null));
     }
 }
