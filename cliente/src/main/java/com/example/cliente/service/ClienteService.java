@@ -5,6 +5,7 @@ import com.example.cliente.dto.ClienteResponseDTO;
 import com.example.cliente.exception.ResourceNotFoundException;
 import com.example.cliente.model.Cliente;
 import com.example.cliente.repository.ClienteRepository;
+import com.example.cliente.webclient.UsuarioClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,11 @@ public class ClienteService {
     private static final Logger logger = LoggerFactory.getLogger(ClienteService.class);
 
     private final ClienteRepository repository;
+    private final UsuarioClient usuarioClient;
 
-    public ClienteService(ClienteRepository repository) {
+    public ClienteService(ClienteRepository repository, UsuarioClient usuarioClient) {
         this.repository = repository;
+        this.usuarioClient = usuarioClient;
     }
 
     public List<ClienteResponseDTO> listar() {
@@ -43,6 +46,10 @@ public class ClienteService {
         if (repository.existsByRut(dto.getRut())) {
             logger.warn("Conflicto: RUT {} ya existe", dto.getRut());
             throw new IllegalArgumentException("Ya existe un cliente con el RUT: " + dto.getRut());
+        }
+        if (!usuarioClient.existeUsuario(dto.getUsuarioId())) {
+            logger.error("Usuario ID {} no existe en el sistema", dto.getUsuarioId());
+            throw new IllegalArgumentException("El usuario especificado no existe en el sistema");
         }
         Cliente cliente = toEntity(dto);
         Cliente guardado = repository.save(cliente);
@@ -67,9 +74,12 @@ public class ClienteService {
         cliente.setEmail(dto.getEmail());
         cliente.setTelefono(dto.getTelefono());
         cliente.setDireccion(dto.getDireccion());
-        if (dto.getUsuarioId() != null) {
-            cliente.setUsuarioId(dto.getUsuarioId());
+
+        if (!usuarioClient.existeUsuario(dto.getUsuarioId())) {
+            logger.error("Usuario ID {} no existe en el sistema", dto.getUsuarioId());
+            throw new IllegalArgumentException("El usuario especificado no existe en el sistema");
         }
+        cliente.setUsuarioId(dto.getUsuarioId());
 
         Cliente actualizado = repository.save(cliente);
         logger.info("Cliente con ID {} actualizado exitosamente", id);

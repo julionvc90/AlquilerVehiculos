@@ -63,6 +63,8 @@ public class VehiculoService {
                     return new ResourceNotFoundException("Vehiculo", id);
                 });
 
+        vendedorClient.obtenerVendedor(dto.getVendedorId());
+
         vehiculo.setPatente(dto.getPatente());
         vehiculo.setMarca(dto.getMarca());
         vehiculo.setModelo(dto.getModelo());

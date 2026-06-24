@@ -63,11 +63,11 @@ public class InspeccionService {
     public InspeccionResponseDTO crear(InspeccionRequestDTO dto) {
         logger.info("Creando inspeccion para alquiler ID: {}, vehiculo ID: {}", dto.getAlquilerId(), dto.getVehiculoId());
 
-        if (dto.getAlquilerId() != null && !alquilerClient.existeAlquiler(dto.getAlquilerId())) {
+        if (!alquilerClient.existeAlquiler(dto.getAlquilerId())) {
             logger.error("Alquiler ID {} no existe en el sistema", dto.getAlquilerId());
             throw new IllegalArgumentException("El alquiler especificado no existe en el sistema");
         }
-        if (dto.getVehiculoId() != null && !vehiculoClient.existeVehiculo(dto.getVehiculoId())) {
+        if (!vehiculoClient.existeVehiculo(dto.getVehiculoId())) {
             logger.error("Vehiculo ID {} no existe en el sistema", dto.getVehiculoId());
             throw new IllegalArgumentException("El vehiculo especificado no existe en el sistema");
         }
@@ -83,20 +83,16 @@ public class InspeccionService {
         Inspeccion inspeccion = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Inspeccion", id));
 
-        if (dto.getAlquilerId() != null) {
-            if (!alquilerClient.existeAlquiler(dto.getAlquilerId())) {
-                logger.error("Alquiler ID {} no existe en el sistema", dto.getAlquilerId());
-                throw new IllegalArgumentException("El alquiler especificado no existe en el sistema");
-            }
-            inspeccion.setAlquilerId(dto.getAlquilerId());
+        if (!alquilerClient.existeAlquiler(dto.getAlquilerId())) {
+            logger.error("Alquiler ID {} no existe en el sistema", dto.getAlquilerId());
+            throw new IllegalArgumentException("El alquiler especificado no existe en el sistema");
         }
-        if (dto.getVehiculoId() != null) {
-            if (!vehiculoClient.existeVehiculo(dto.getVehiculoId())) {
-                logger.error("Vehiculo ID {} no existe en el sistema", dto.getVehiculoId());
-                throw new IllegalArgumentException("El vehiculo especificado no existe en el sistema");
-            }
-            inspeccion.setVehiculoId(dto.getVehiculoId());
+        inspeccion.setAlquilerId(dto.getAlquilerId());
+        if (!vehiculoClient.existeVehiculo(dto.getVehiculoId())) {
+            logger.error("Vehiculo ID {} no existe en el sistema", dto.getVehiculoId());
+            throw new IllegalArgumentException("El vehiculo especificado no existe en el sistema");
         }
+        inspeccion.setVehiculoId(dto.getVehiculoId());
         inspeccion.setFechaInspeccion(dto.getFechaInspeccion());
         inspeccion.setTipoInspeccion(dto.getTipoInspeccion());
         inspeccion.setResultado(dto.getResultado());

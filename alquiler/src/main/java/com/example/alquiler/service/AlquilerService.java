@@ -124,6 +124,10 @@ public class AlquilerService {
                     return new ResourceNotFoundException("Alquiler", id);
                 });
 
+        clienteClient.obtenerCliente(dto.getClienteId());
+        vehiculoClient.obtenerVehiculo(dto.getVehiculoId());
+        reservaClient.obtenerReserva(dto.getReservaId());
+
         alquiler.setClienteId(dto.getClienteId());
         alquiler.setVehiculoId(dto.getVehiculoId());
         alquiler.setFechaInicio(dto.getFechaInicio());

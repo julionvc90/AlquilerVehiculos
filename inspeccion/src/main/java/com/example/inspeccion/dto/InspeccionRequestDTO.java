@@ -14,8 +14,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class InspeccionRequestDTO {
 
+    @NotNull(message = "El alquilerId es obligatorio")
     private Long alquilerId;
 
+    @NotNull(message = "El vehiculoId es obligatorio")
     private Long vehiculoId;
 
     @NotNull(message = "La fecha de inspeccion es obligatoria")

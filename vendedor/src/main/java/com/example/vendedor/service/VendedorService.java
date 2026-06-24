@@ -47,7 +47,7 @@ public class VendedorService {
             logger.warn("Conflicto: RUT {} ya existe", dto.getRut());
             throw new IllegalArgumentException("Ya existe un vendedor con el RUT: " + dto.getRut());
         }
-        if (dto.getUsuarioId() != null && !usuarioClient.existeUsuario(dto.getUsuarioId())) {
+        if (!usuarioClient.existeUsuario(dto.getUsuarioId())) {
             logger.error("Usuario ID {} no existe en el sistema", dto.getUsuarioId());
             throw new IllegalArgumentException("El usuario especificado no existe en el sistema");
         }
@@ -68,7 +68,7 @@ public class VendedorService {
             throw new IllegalArgumentException("Ya existe otro vendedor con el RUT: " + dto.getRut());
         }
 
-        if (dto.getUsuarioId() != null && !usuarioClient.existeUsuario(dto.getUsuarioId())) {
+        if (!usuarioClient.existeUsuario(dto.getUsuarioId())) {
             logger.error("Usuario ID {} no existe en el sistema", dto.getUsuarioId());
             throw new IllegalArgumentException("El usuario especificado no existe en el sistema");
         }
@@ -78,9 +78,7 @@ public class VendedorService {
         vendedor.setApellido(dto.getApellido());
         vendedor.setEmail(dto.getEmail());
         vendedor.setTelefono(dto.getTelefono());
-        if (dto.getUsuarioId() != null) {
-            vendedor.setUsuarioId(dto.getUsuarioId());
-        }
+        vendedor.setUsuarioId(dto.getUsuarioId());
 
         Vendedor actualizado = repository.save(vendedor);
         logger.info("Vendedor con ID {} actualizado exitosamente", id);

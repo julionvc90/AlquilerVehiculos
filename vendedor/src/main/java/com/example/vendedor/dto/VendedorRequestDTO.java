@@ -2,6 +2,7 @@ package com.example.vendedor.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,5 +33,6 @@ public class VendedorRequestDTO {
     @Size(max = 15, message = "El telefono no puede exceder los 15 caracteres")
     private String telefono;
 
+    @NotNull(message = "El usuarioId es obligatorio")
     private Long usuarioId;
 }
