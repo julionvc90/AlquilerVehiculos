@@ -3,6 +3,7 @@ package com.example.reserva.dto;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +20,11 @@ public class ReservaRequestDTO {
     private Long idReserva;
 
     @NotNull
+    @Positive(message = "El idVehiculo debe ser un numero positivo")
     private Long idVehiculo;
 
     @NotNull
+    @Positive(message = "El idCliente debe ser un numero positivo")
     private Long idCliente;
 
     @NotNull(message = "La Fecha de Reserva Servicio, no puede estar vacio")

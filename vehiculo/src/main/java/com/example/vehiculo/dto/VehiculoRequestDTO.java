@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,8 +46,11 @@ public class VehiculoRequestDTO {
     private String color;
 
     @NotNull(message = "El Vehiculo Debe Tener Un Vendedor")
+    @Positive(message = "El vendedorId debe ser un numero positivo")
     private Long vendedorId;
 
+    @NotNull(message = "La tarifa diaria es obligatoria")
+    @Positive(message = "La tarifa diaria debe ser un valor positivo")
     private Double tarifaDiaria;
     private String ubicacion;
 }

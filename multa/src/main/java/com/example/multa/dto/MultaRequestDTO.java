@@ -2,6 +2,7 @@ package com.example.multa.dto;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +16,11 @@ import java.math.BigDecimal;
 public class MultaRequestDTO {
 
     @NotNull
+    @Positive(message = "El idReserva debe ser un numero positivo")
     private Long idReserva;
 
     @NotNull
+    @Positive(message = "El idVehiculo debe ser un numero positivo")
     private Long idVehiculo;
 
     @NotNull

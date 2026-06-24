@@ -3,6 +3,7 @@ package com.example.cliente.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,5 +38,6 @@ public class ClienteRequestDTO {
     private String direccion;
 
     @NotNull(message = "El usuarioId es obligatorio")
+    @Positive(message = "El usuarioId debe ser un numero positivo")
     private Long usuarioId;
 }

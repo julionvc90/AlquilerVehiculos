@@ -2,6 +2,7 @@ package com.example.inspeccion.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +16,11 @@ import java.time.LocalDateTime;
 public class InspeccionRequestDTO {
 
     @NotNull(message = "El alquilerId es obligatorio")
+    @Positive(message = "El alquilerId debe ser un numero positivo")
     private Long alquilerId;
 
     @NotNull(message = "El vehiculoId es obligatorio")
+    @Positive(message = "El vehiculoId debe ser un numero positivo")
     private Long vehiculoId;
 
     @NotNull(message = "La fecha de inspeccion es obligatoria")
