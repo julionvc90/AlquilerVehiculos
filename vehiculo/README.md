@@ -110,7 +110,7 @@ src/main/java/com/example/vehiculo/
 
 ### Pasos
 
-1. Configurar credenciales MySQL en `src/main/resources/application.properties`
+1. Configurar credenciales MySQL en `src/main/resources/application.yml`
 2. Crear la base de datos: `CREATE DATABASE vehiculo_db;`
 3. Ejecutar:
 ```bash
@@ -118,6 +118,7 @@ cd vehiculo
 ./mvnw spring-boot:run
 ```
 4. El microservicio se levanta en `http://localhost:9094`
+5. Swagger UI: `http://localhost:9094/doc/swagger-ui/index.html`
 
 ---
 

@@ -73,9 +73,9 @@ public class DisponibilidadController {
     @Operation(summary = "Validar disponibilidad por fechas")
     @ApiResponse(responseCode = "200", description = "Resultado de la validación")
     public ResponseEntity<Boolean> validarDisponibilidad(
-            @Parameter(description = \"ID del vehículo a validar\") @RequestParam Long vehiculoId,
-            @Parameter(description = \"Fecha de inicio del período\") @RequestParam LocalDate inicio,
-            @Parameter(description = \"Fecha de fin del período\") @RequestParam LocalDate fin) {
+            @Parameter(description = "ID del vehículo a validar") @RequestParam Long vehiculoId,
+            @Parameter(description = "Fecha de inicio del período") @RequestParam LocalDate inicio,
+            @Parameter(description = "Fecha de fin del período") @RequestParam LocalDate fin) {
         logger.info("GET /api/disponibilidad/validar - Validar vehiculo ID: {} desde {} hasta {}", vehiculoId, inicio, fin);
         return ResponseEntity.ok(service.validarDisponibilidad(vehiculoId, inicio, fin));
     }

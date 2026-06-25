@@ -58,7 +58,11 @@ Disponib ─┘                    Inspeccion  Multa
 | Validaciones | Jakarta Bean Validation |
 | Comunicacion REST | Spring WebMVC |
 | Comunicacion entre MS | **WebClient** (WebFlux reactivo) |
-| Utilidades | Lombok, SLF4J |
+| Documentacion API | **SpringDoc OpenAPI / Swagger** |
+| Configuracion | **YAML** (`application.yml`) |
+| Logging | **SLF4J + Logback** con persistencia a archivo |
+| Testing | **JUnit 5 + Mockito** |
+| Utilidades | Lombok
 
 ---
 
@@ -143,6 +147,34 @@ cd multa      && ./mvnw spring-boot:run   # Puerto 9100
 ```
 
 Cada microservicio crea automaticamente su base de datos al iniciar (`createDatabaseIfNotExist=true`).
+
+### Paso 3: Swagger UI
+
+Cada microservicio expone Swagger:
+
+| Microservicio | Swagger UI |
+|---|---|
+| usuario | http://localhost:9091/doc/swagger-ui/index.html |
+| cliente | http://localhost:9092/doc/swagger-ui/index.html |
+| vendedor | http://localhost:9093/doc/swagger-ui/index.html |
+| vehiculo | http://localhost:9094/doc/swagger-ui/index.html |
+| disponibilidad | http://localhost:9095/doc/swagger-ui/index.html |
+| inspeccion | http://localhost:9096/doc/swagger-ui/index.html |
+| alquiler | http://localhost:9097/doc/swagger-ui/index.html |
+| pago | http://localhost:9098/doc/swagger-ui/index.html |
+| reserva | http://localhost:9099/doc/swagger-ui/index.html |
+| multa | http://localhost:9100/doc/swagger-ui/index.html |
+
+---
+
+## 🧪 Pruebas Unitarias
+
+```bash
+cd <microservicio>
+./mvnw test
+```
+
+Pruebas con JUnit 5 + Mockito: CRUD, reglas de negocio y validaciones FK.
 
 ---
 

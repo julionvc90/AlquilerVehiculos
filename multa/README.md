@@ -99,7 +99,7 @@ src/main/java/com/example/multa/
 
 ### Pasos
 
-1. Configurar credenciales MySQL en `src/main/resources/application.properties`
+1. Configurar credenciales MySQL en `src/main/resources/application.yml`
 2. Crear la base de datos: `CREATE DATABASE multa_db;`
 3. Ejecutar:
 ```bash
@@ -107,6 +107,7 @@ cd multa
 ./mvnw spring-boot:run
 ```
 4. El microservicio se levanta en `http://localhost:9100`
+5. Swagger UI: `http://localhost:9100/doc/swagger-ui/index.html`
 
 ---
 

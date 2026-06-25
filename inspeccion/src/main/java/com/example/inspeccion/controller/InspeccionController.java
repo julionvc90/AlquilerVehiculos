@@ -75,7 +75,7 @@ public class InspeccionController {
     @Operation(summary = "Buscar inspecciones por tipo")
     @ApiResponse(responseCode = "200", description = "Lista de inspecciones filtrada por tipo")
     public ResponseEntity<List<InspeccionResponseDTO>> buscarPorTipo(
-            @Parameter(description = \"Tipo de inspección (Entrega, Devolucion)\") @PathVariable String tipo) {
+            @Parameter(description = "Tipo de inspección (Entrega, Devolucion)") @PathVariable String tipo) {
         logger.info("GET /api/inspecciones/tipo/{} - Buscar por tipo de inspeccion", tipo);
         return ResponseEntity.ok(service.buscarPorTipo(tipo));
     }

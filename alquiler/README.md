@@ -122,7 +122,7 @@ src/main/java/com/example/alquiler/
 
 ### Pasos
 
-1. Configurar credenciales MySQL en `src/main/resources/application.properties`
+1. Configurar credenciales MySQL en `src/main/resources/application.yml`
 2. Crear la base de datos: `CREATE DATABASE alquiler_db;`
 3. Ejecutar:
 ```bash
@@ -130,6 +130,7 @@ cd alquiler
 ./mvnw spring-boot:run
 ```
 4. El microservicio se levanta en `http://localhost:9097`
+5. Swagger UI: `http://localhost:9097/doc/swagger-ui/index.html`
 
 ---
 

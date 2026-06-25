@@ -106,7 +106,7 @@ src/main/java/com/example/inspeccion/
 
 ### Pasos
 
-1. Configurar credenciales MySQL en `src/main/resources/application.properties`
+1. Configurar credenciales MySQL en `src/main/resources/application.yml`
 2. Crear la base de datos: `CREATE DATABASE inspeccion_db;`
 3. Ejecutar:
 ```bash
@@ -114,6 +114,7 @@ cd inspeccion
 ./mvnw spring-boot:run
 ```
 4. El microservicio se levanta en `http://localhost:9096`
+5. Swagger UI: `http://localhost:9096/doc/swagger-ui/index.html`
 
 ---
 
