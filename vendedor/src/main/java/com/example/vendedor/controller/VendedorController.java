@@ -1,10 +1,13 @@
 package com.example.vendedor.controller;
 
 import com.example.vendedor.dto.RespuestaExitosa;
+import com.example.vendedor.exception.ErrorResponse;
 import com.example.vendedor.dto.VendedorRequestDTO;
 import com.example.vendedor.dto.VendedorResponseDTO;
 import com.example.vendedor.service.VendedorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -49,7 +52,8 @@ public class VendedorController {
     @GetMapping("/{id}")
     @Operation(summary = "Buscar vendedor por ID")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Vendedor encontrado"),
-                   @ApiResponse(responseCode = "404", description = "Vendedor no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Vendedor no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<VendedorResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/vendedores/{} - Buscar vendedor por ID", id);
         VendedorResponseDTO vendedor = service.buscarPorId(id);
@@ -59,7 +63,8 @@ public class VendedorController {
     @GetMapping("/rut/{rut}")
     @Operation(summary = "Buscar vendedor por RUT")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Vendedor encontrado"),
-                   @ApiResponse(responseCode = "404", description = "Vendedor no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Vendedor no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<VendedorResponseDTO> buscarPorRut(@PathVariable String rut) {
         logger.info("GET /api/vendedores/rut/{} - Buscar vendedor por RUT", rut);
         VendedorResponseDTO vendedor = service.buscarPorRut(rut);
@@ -69,7 +74,8 @@ public class VendedorController {
     @PostMapping
     @Operation(summary = "Crear nuevo vendedor")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Vendedor creado correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<VendedorResponseDTO>> crear(@Valid @RequestBody VendedorRequestDTO dto) {
         logger.info("POST /api/vendedores - Crear nuevo vendedor");
         VendedorResponseDTO creado = service.crear(dto);
@@ -81,8 +87,10 @@ public class VendedorController {
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar vendedor")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Vendedor actualizado correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
-                   @ApiResponse(responseCode = "404", description = "Vendedor no encontrado")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                   @ApiResponse(responseCode = "404", description = "Vendedor no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<VendedorResponseDTO>> actualizar(@PathVariable Long id,
                                                             @Valid @RequestBody VendedorRequestDTO dto) {
         logger.info("PUT /api/vendedores/{} - Actualizar vendedor", id);
@@ -94,7 +102,8 @@ public class VendedorController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar vendedor")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Vendedor eliminado correctamente"),
-                   @ApiResponse(responseCode = "404", description = "Vendedor no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Vendedor no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/vendedores/{} - Eliminar vendedor", id);
         service.eliminar(id);

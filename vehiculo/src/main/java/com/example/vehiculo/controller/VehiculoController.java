@@ -1,10 +1,13 @@
 package com.example.vehiculo.controller;
 
 import com.example.vehiculo.dto.RespuestaExitosa;
+import com.example.vehiculo.exception.ErrorResponse;
 import com.example.vehiculo.dto.VehiculoRequestDTO;
 import com.example.vehiculo.dto.VehiculoResponseDTO;
 import com.example.vehiculo.service.VehiculoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,7 +51,8 @@ public class VehiculoController {
     @GetMapping("/{id}")
     @Operation(summary = "Buscar vehículo por ID")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Vehículo encontrado"),
-                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<VehiculoResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/vehiculos/{} - Buscar vehiculo por ID", id);
         return ResponseEntity.ok(service.buscarPorId(id));
@@ -57,7 +61,8 @@ public class VehiculoController {
     @PostMapping
     @Operation(summary = "Crear nuevo vehículo")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Vehículo creado correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<VehiculoResponseDTO>> guardar(@Valid @RequestBody VehiculoRequestDTO dto) {
         logger.info("POST /api/vehiculos - Crear nuevo vehiculo con patente: {}", dto.getPatente());
         VehiculoResponseDTO creado = service.guardar(dto);
@@ -69,8 +74,10 @@ public class VehiculoController {
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar vehículo")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Vehículo actualizado correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
-                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<VehiculoResponseDTO>> actualizar(
             @PathVariable Long id,
             @Valid @RequestBody VehiculoRequestDTO dto) {
@@ -91,7 +98,8 @@ public class VehiculoController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar vehículo")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Vehículo eliminado correctamente"),
-                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Vehículo no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/vehiculos/{} - Eliminar vehiculo", id);
         service.eliminar(id);

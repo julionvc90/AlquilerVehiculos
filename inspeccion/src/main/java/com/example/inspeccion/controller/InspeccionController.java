@@ -3,9 +3,12 @@ package com.example.inspeccion.controller;
 import com.example.inspeccion.dto.InspeccionRequestDTO;
 import com.example.inspeccion.dto.InspeccionResponseDTO;
 import com.example.inspeccion.dto.RespuestaExitosa;
+import com.example.inspeccion.exception.ErrorResponse;
 import com.example.inspeccion.service.InspeccionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -49,7 +52,8 @@ public class InspeccionController {
     @GetMapping("/{id}")
     @Operation(summary = "Buscar inspección por ID")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Inspección encontrada"),
-                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada")})
+                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<InspeccionResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/inspecciones/{} - Buscar inspeccion por ID", id);
         return ResponseEntity.ok(service.buscarPorId(id));
@@ -83,7 +87,8 @@ public class InspeccionController {
     @PostMapping
     @Operation(summary = "Crear nueva inspección")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Inspección creada correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<InspeccionResponseDTO>> crear(@Valid @RequestBody InspeccionRequestDTO dto) {
         logger.info("POST /api/inspecciones - Crear nueva inspeccion");
         InspeccionResponseDTO creado = service.crear(dto);
@@ -95,8 +100,10 @@ public class InspeccionController {
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar inspección")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Inspección actualizada correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
-                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<InspeccionResponseDTO>> actualizar(@PathVariable Long id,
                                                               @Valid @RequestBody InspeccionRequestDTO dto) {
         logger.info("PUT /api/inspecciones/{} - Actualizar inspeccion", id);
@@ -108,7 +115,8 @@ public class InspeccionController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar inspección")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Inspección eliminada correctamente"),
-                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada")})
+                   @ApiResponse(responseCode = "404", description = "Inspección no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/inspecciones/{} - Eliminar inspeccion", id);
         service.eliminar(id);

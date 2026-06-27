@@ -3,8 +3,11 @@ package com.example.pago.controller;
 import com.example.pago.dto.PagoRequestDTO;
 import com.example.pago.dto.PagoResponseDTO;
 import com.example.pago.dto.RespuestaExitosa;
+import com.example.pago.exception.ErrorResponse;
 import com.example.pago.service.PagoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +34,8 @@ public class PagoController {
     @PostMapping
     @Operation(summary = "Crear nuevo pago")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Pago creado correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<PagoResponseDTO>> crear(
             @Valid @RequestBody PagoRequestDTO dto) {
         logger.info("POST /api/pago - Crear nuevo pago para reserva ID: {}", dto.getIdReserva());
@@ -44,7 +48,8 @@ public class PagoController {
     @GetMapping("/{id}")
     @Operation(summary = "Buscar pago por ID")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Pago encontrado"),
-                   @ApiResponse(responseCode = "404", description = "Pago no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Pago no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public PagoResponseDTO obtener(
             @PathVariable Long id) {
         logger.info("GET /api/pago/{} - Buscar pago por ID", id);
@@ -70,8 +75,10 @@ public class PagoController {
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar pago")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Pago actualizado correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
-                   @ApiResponse(responseCode = "404", description = "Pago no encontrado")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                   @ApiResponse(responseCode = "404", description = "Pago no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<PagoResponseDTO>> actualizar(
             @PathVariable Long id,
             @Valid @RequestBody PagoRequestDTO dto) {
@@ -84,7 +91,8 @@ public class PagoController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar pago")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Pago eliminado correctamente"),
-                   @ApiResponse(responseCode = "404", description = "Pago no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Pago no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<Void>> eliminar(
             @PathVariable Long id) {
         logger.info("DELETE /api/pago/{} - Eliminar pago", id);

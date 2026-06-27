@@ -3,9 +3,12 @@ package com.example.disponibilidad.controller;
 import com.example.disponibilidad.dto.DisponibilidadRequestDTO;
 import com.example.disponibilidad.dto.DisponibilidadResponseDTO;
 import com.example.disponibilidad.dto.RespuestaExitosa;
+import com.example.disponibilidad.exception.ErrorResponse;
 import com.example.disponibilidad.service.DisponibilidadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,7 +54,8 @@ public class DisponibilidadController {
     @GetMapping("/{id}")
     @Operation(summary = "Buscar disponibilidad por ID")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Disponibilidad encontrada"),
-                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada")})
+                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<DisponibilidadResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/disponibilidad/{} - Buscar disponibilidad por ID", id);
         return ResponseEntity.ok(service.buscarPorId(id));
@@ -60,7 +64,8 @@ public class DisponibilidadController {
     @PostMapping
     @Operation(summary = "Crear nueva disponibilidad")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Disponibilidad creada correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<DisponibilidadResponseDTO>> guardar(@Valid @RequestBody DisponibilidadRequestDTO dto) {
         logger.info("POST /api/disponibilidad - Crear nueva disponibilidad para vehiculo ID: {}", dto.getVehiculoId());
         DisponibilidadResponseDTO creado = service.guardar(dto);
@@ -83,8 +88,10 @@ public class DisponibilidadController {
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar disponibilidad")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Disponibilidad actualizada correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
-                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<DisponibilidadResponseDTO>> actualizar(
             @PathVariable Long id,
             @Valid @RequestBody DisponibilidadRequestDTO dto) {
@@ -97,7 +104,8 @@ public class DisponibilidadController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar disponibilidad")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Disponibilidad eliminada correctamente"),
-                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada")})
+                   @ApiResponse(responseCode = "404", description = "Disponibilidad no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/disponibilidad/{} - Eliminar disponibilidad", id);
         service.eliminar(id);

@@ -3,8 +3,11 @@ package com.example.multa.controller;
 import com.example.multa.dto.MultaRequestDTO;
 import com.example.multa.dto.MultaResponseDTO;
 import com.example.multa.dto.RespuestaExitosa;
+import com.example.multa.exception.ErrorResponse;
 import com.example.multa.service.MultaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +34,8 @@ public class MultaController {
     @PostMapping
     @Operation(summary = "Crear nueva multa")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Multa creada correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<MultaResponseDTO>> crearMulta(
             @Valid @RequestBody MultaRequestDTO dto) {
         logger.info("POST /api/multa - Crear nueva multa para reserva ID: {}", dto.getIdReserva());
@@ -44,7 +48,8 @@ public class MultaController {
     @GetMapping("/{id}")
     @Operation(summary = "Buscar multa por ID")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Multa encontrada"),
-                   @ApiResponse(responseCode = "404", description = "Multa no encontrada")})
+                   @ApiResponse(responseCode = "404", description = "Multa no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public MultaResponseDTO obtenerMulta(
             @PathVariable Long id) {
         logger.info("GET /api/multa/{} - Buscar multa por ID", id);
@@ -62,8 +67,10 @@ public class MultaController {
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar multa")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Multa actualizada correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos"),
-                   @ApiResponse(responseCode = "404", description = "Multa no encontrada")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                   @ApiResponse(responseCode = "404", description = "Multa no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<MultaResponseDTO>> actualizarMulta(
             @PathVariable Long id,
             @Valid @RequestBody MultaRequestDTO dto) {
@@ -76,7 +83,8 @@ public class MultaController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar multa")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Multa eliminada correctamente"),
-                   @ApiResponse(responseCode = "404", description = "Multa no encontrada")})
+                   @ApiResponse(responseCode = "404", description = "Multa no encontrada",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<Void>> eliminarMulta(
             @PathVariable Long id) {
         logger.info("DELETE /api/multa/{} - Eliminar multa", id);

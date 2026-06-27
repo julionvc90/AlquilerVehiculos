@@ -1,11 +1,14 @@
 package com.example.usuario.controller;
 
 import com.example.usuario.dto.RespuestaExitosa;
+import com.example.usuario.exception.ErrorResponse;
 import com.example.usuario.dto.UsuarioRequestDTO;
 import com.example.usuario.dto.UsuarioResponseDTO;
 import com.example.usuario.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,7 +53,8 @@ public class UsuarioController {
     @GetMapping("/{id}")
     @Operation(summary = "Buscar usuario por ID")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Usuario encontrado"),
-                   @ApiResponse(responseCode = "404", description = "Usuario no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) {
         logger.info("GET /api/usuarios/{} - Buscar usuario por ID", id);
         UsuarioResponseDTO usuario = service.buscarPorId(id);
@@ -69,7 +73,8 @@ public class UsuarioController {
     @GetMapping("/username/{username}")
     @Operation(summary = "Buscar usuario por username")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Usuario encontrado"),
-                   @ApiResponse(responseCode = "404", description = "Usuario no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<UsuarioResponseDTO> buscarPorUsername(
             @Parameter(description = "Nombre de usuario a buscar") @PathVariable String username) {
         logger.info("GET /api/usuarios/username/{} - Buscar usuario por username", username);
@@ -80,7 +85,8 @@ public class UsuarioController {
     @PostMapping
     @Operation(summary = "Crear nuevo usuario", description = "Registra un usuario con rol ADMIN, CLIENTE o VENDEDOR")
     @ApiResponses({@ApiResponse(responseCode = "201", description = "Usuario creado correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<UsuarioResponseDTO>> crear(@Valid @RequestBody UsuarioRequestDTO dto) {
         logger.info("POST /api/usuarios - Crear nuevo usuario");
         UsuarioResponseDTO creado = service.crear(dto);
@@ -92,8 +98,10 @@ public class UsuarioController {
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar usuario")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente"),
-                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio"),
-                   @ApiResponse(responseCode = "404", description = "Usuario no encontrado")})
+                   @ApiResponse(responseCode = "400", description = "Datos inválidos o regla de negocio",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                   @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<UsuarioResponseDTO>> actualizar(@PathVariable Long id,
                                                           @Valid @RequestBody UsuarioRequestDTO dto) {
         logger.info("PUT /api/usuarios/{} - Actualizar usuario", id);
@@ -105,7 +113,8 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar usuario")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Usuario eliminado correctamente"),
-                   @ApiResponse(responseCode = "404", description = "Usuario no encontrado")})
+                   @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<RespuestaExitosa<Void>> eliminar(@PathVariable Long id) {
         logger.info("DELETE /api/usuarios/{} - Eliminar usuario", id);
         service.eliminar(id);
