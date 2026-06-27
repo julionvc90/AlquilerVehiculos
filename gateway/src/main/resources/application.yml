@@ -1,0 +1,211 @@
+server:
+  port: 8101
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: usuario
+              uri: lb://usuario
+              predicates:
+                - Path=/api/usuarios/**
+            - id: cliente
+              uri: lb://cliente
+              predicates:
+                - Path=/api/clientes/**
+            - id: vendedor
+              uri: lb://vendedor
+              predicates:
+                - Path=/api/vendedores/**
+            - id: vehiculo
+              uri: lb://vehiculo
+              predicates:
+                - Path=/api/vehiculos/**
+            - id: disponibilidad
+              uri: lb://disponibilidad
+              predicates:
+                - Path=/api/disponibilidad/**
+            - id: reserva
+              uri: lb://reserva
+              predicates:
+                - Path=/api/reserva/**
+            - id: pago
+              uri: lb://pago
+              predicates:
+                - Path=/api/pago/**
+            - id: alquiler
+              uri: lb://alquiler
+              predicates:
+                - Path=/api/alquiler/**
+            - id: inspeccion
+              uri: lb://inspeccion
+              predicates:
+                - Path=/api/inspecciones/**
+            - id: multa
+              uri: lb://multa
+              predicates:
+                - Path=/api/multa/**
+            # Rutas para centralizar OpenAPI/Swagger de todos los microservicios
+            - id: usuario-docs
+              uri: lb://usuario
+              predicates:
+                - Path=/usuario/v3/api-docs,/usuario/v3/api-docs/**
+              filters:
+                - RewritePath=/usuario/(?<segment>.*), /$\{segment}
+            - id: cliente-docs
+              uri: lb://cliente
+              predicates:
+                - Path=/cliente/v3/api-docs,/cliente/v3/api-docs/**
+              filters:
+                - RewritePath=/cliente/(?<segment>.*), /$\{segment}
+            - id: vendedor-docs
+              uri: lb://vendedor
+              predicates:
+                - Path=/vendedor/v3/api-docs,/vendedor/v3/api-docs/**
+              filters:
+                - RewritePath=/vendedor/(?<segment>.*), /$\{segment}
+            - id: vehiculo-docs
+              uri: lb://vehiculo
+              predicates:
+                - Path=/vehiculo/v3/api-docs,/vehiculo/v3/api-docs/**
+              filters:
+                - RewritePath=/vehiculo/(?<segment>.*), /$\{segment}
+            - id: disponibilidad-docs
+              uri: lb://disponibilidad
+              predicates:
+                - Path=/disponibilidad/v3/api-docs,/disponibilidad/v3/api-docs/**
+              filters:
+                - RewritePath=/disponibilidad/(?<segment>.*), /$\{segment}
+            - id: reserva-docs
+              uri: lb://reserva
+              predicates:
+                - Path=/reserva/v3/api-docs,/reserva/v3/api-docs/**
+              filters:
+                - RewritePath=/reserva/(?<segment>.*), /$\{segment}
+            - id: pago-docs
+              uri: lb://pago
+              predicates:
+                - Path=/pago/v3/api-docs,/pago/v3/api-docs/**
+              filters:
+                - RewritePath=/pago/(?<segment>.*), /$\{segment}
+            - id: alquiler-docs
+              uri: lb://alquiler
+              predicates:
+                - Path=/alquiler/v3/api-docs,/alquiler/v3/api-docs/**
+              filters:
+                - RewritePath=/alquiler/(?<segment>.*), /$\{segment}
+            - id: inspeccion-docs
+              uri: lb://inspeccion
+              predicates:
+                - Path=/inspeccion/v3/api-docs,/inspeccion/v3/api-docs/**
+              filters:
+                - RewritePath=/inspeccion/(?<segment>.*), /$\{segment}
+            - id: multa-docs
+              uri: lb://multa
+              predicates:
+                - Path=/multa/v3/api-docs,/multa/v3/api-docs/**
+              filters:
+                - RewritePath=/multa/(?<segment>.*), /$\{segment}
+            - id: usuario-alias
+              uri: lb://usuario
+              predicates:
+                - Path=/usuarios/**
+              filters:
+                - RewritePath=/usuarios/?(?<segment>.*), /api/usuarios/$\{segment}
+            - id: cliente-alias
+              uri: lb://cliente
+              predicates:
+                - Path=/clientes/**
+              filters:
+                - RewritePath=/clientes/?(?<segment>.*), /api/clientes/$\{segment}
+            - id: vendedor-alias
+              uri: lb://vendedor
+              predicates:
+                - Path=/vendedores/**
+              filters:
+                - RewritePath=/vendedores/?(?<segment>.*), /api/vendedores/$\{segment}
+            - id: vehiculo-alias
+              uri: lb://vehiculo
+              predicates:
+                - Path=/vehiculos/**
+              filters:
+                - RewritePath=/vehiculos/?(?<segment>.*), /api/vehiculos/$\{segment}
+            - id: disponibilidad-alias
+              uri: lb://disponibilidad
+              predicates:
+                - Path=/disponibilidad/**
+              filters:
+                - RewritePath=/disponibilidad/?(?<segment>.*), /api/disponibilidad/$\{segment}
+            - id: reserva-alias
+              uri: lb://reserva
+              predicates:
+                - Path=/reserva/**
+              filters:
+                - RewritePath=/reserva/?(?<segment>.*), /api/reserva/$\{segment}
+            - id: pago-alias
+              uri: lb://pago
+              predicates:
+                - Path=/pago/**
+              filters:
+                - RewritePath=/pago/?(?<segment>.*), /api/pago/$\{segment}
+            - id: alquiler-alias
+              uri: lb://alquiler
+              predicates:
+                - Path=/alquiler/**
+              filters:
+                - RewritePath=/alquiler/?(?<segment>.*), /api/alquiler/$\{segment}
+            - id: inspeccion-alias
+              uri: lb://inspeccion
+              predicates:
+                - Path=/inspecciones/**
+              filters:
+                - RewritePath=/inspecciones/?(?<segment>.*), /api/inspecciones/$\{segment}
+            - id: multa-alias
+              uri: lb://multa
+              predicates:
+                - Path=/multa/**
+              filters:
+                - RewritePath=/multa/?(?<segment>.*), /api/multa/$\{segment}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+    urls-primary-name: Vehiculo
+    urls:
+      - name: Usuario
+        url: /usuario/v3/api-docs
+      - name: Cliente
+        url: /cliente/v3/api-docs
+      - name: Vendedor
+        url: /vendedor/v3/api-docs
+      - name: Vehiculo
+        url: /vehiculo/v3/api-docs
+      - name: Disponibilidad
+        url: /disponibilidad/v3/api-docs
+      - name: Reserva
+        url: /reserva/v3/api-docs
+      - name: Pago
+        url: /pago/v3/api-docs
+      - name: Alquiler
+        url: /alquiler/v3/api-docs
+      - name: Inspeccion
+        url: /inspeccion/v3/api-docs
+      - name: Multa
+        url: /multa/v3/api-docs
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: "${spring.application.name}:${server.port}"

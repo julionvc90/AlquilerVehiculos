@@ -1,0 +1,10 @@
+# IDE
+.idea/
+
+# Logs
+logs/
+
+# Archivos de defensa privados - NO subir a GitHub
+DEFENSA_*.md
+Estructura_Proyecto.md
+Instrucciones_Proyecto.md
