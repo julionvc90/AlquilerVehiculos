@@ -80,7 +80,7 @@ src/main/java/com/example/vendedor/
 
 | Campo | Tipo | Restricciones |
 |---|---|---|
-| `id` | `BIGINT` | PK, AUTO_INCREMENT (inicia en 100000) |
+| `id` | `BIGINT` | PK, AUTO_INCREMENT |
 | `rut` | `VARCHAR(12)` | UNIQUE, NOT NULL |
 | `nombre` | `VARCHAR(50)` | NOT NULL |
 | `apellido` | `VARCHAR(50)` | NOT NULL |

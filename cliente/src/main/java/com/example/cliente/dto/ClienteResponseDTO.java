@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClienteResponseDTO {
 
-    @Schema(description = "ID único del cliente", example = "200001")
+    @Schema(description = "ID único del cliente", example = "1")
     private Long id;
     @Schema(description = "RUT chileno", example = "12.345.678-9")
     private String rut;

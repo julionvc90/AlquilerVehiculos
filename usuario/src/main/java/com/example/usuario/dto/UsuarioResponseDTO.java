@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UsuarioResponseDTO {
 
-    @Schema(description = "ID único del usuario", example = "300001")
+    @Schema(description = "ID único del usuario", example = "1")
     private Long id;
     @Schema(description = "Nombre de usuario", example = "jperez")
     private String username;

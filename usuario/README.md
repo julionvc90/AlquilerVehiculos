@@ -91,7 +91,7 @@ src/main/java/com/example/usuario/
 
 | Campo | Tipo | Restricciones |
 |---|---|---|
-| `id` | `BIGINT` | PK, AUTO_INCREMENT (inicia en 300000) |
+| `id` | `BIGINT` | PK, AUTO_INCREMENT |
 | `username` | `VARCHAR(50)` | UNIQUE, NOT NULL |
 | `password` | `VARCHAR(255)` | NOT NULL |
 | `email` | `VARCHAR(100)` | NOT NULL |

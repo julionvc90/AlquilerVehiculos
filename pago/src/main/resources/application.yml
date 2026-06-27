@@ -23,3 +23,14 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /doc/swagger-ui.html
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/pago_db?createDatabaseIfNotExist=true
+  jpa:
+    hibernate:
+      ddl-auto: create
