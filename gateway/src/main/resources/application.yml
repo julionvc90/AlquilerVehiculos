@@ -1,0 +1,51 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: usuario
+              uri: http://localhost:9091
+              predicates:
+                - Path=/api/usuarios/**
+            - id: cliente
+              uri: http://localhost:9092
+              predicates:
+                - Path=/api/clientes/**
+            - id: vendedor
+              uri: http://localhost:9093
+              predicates:
+                - Path=/api/vendedores/**
+            - id: vehiculo
+              uri: http://localhost:9094
+              predicates:
+                - Path=/api/vehiculos/**
+            - id: disponibilidad
+              uri: http://localhost:9095
+              predicates:
+                - Path=/api/disponibilidad/**
+            - id: inspeccion
+              uri: http://localhost:9096
+              predicates:
+                - Path=/api/inspecciones/**
+            - id: alquiler
+              uri: http://localhost:9097
+              predicates:
+                - Path=/api/alquiler/**
+            - id: pago
+              uri: http://localhost:9098
+              predicates:
+                - Path=/api/pago/**
+            - id: reserva
+              uri: http://localhost:9099
+              predicates:
+                - Path=/api/reserva/**
+            - id: multa
+              uri: http://localhost:9100
+              predicates:
+                - Path=/api/multa/**
