@@ -12,7 +12,7 @@ Integrantes:
 
 ## 📋 Descripcion General
 
-Sistema distribuido para la gestion completa de alquiler de vehiculos, implementado con una arquitectura de **10 microservicios independientes** que se comunican entre si via **WebClient**. Cada microservicio posee su propia base de datos MySQL y expone una API REST.
+Sistema distribuido para la gestion completa de alquiler de vehiculos, implementado con una arquitectura de **10 microservicios independientes** que se comunican entre si via **WebClient**, con un **API Gateway** como punto unico de entrada. Cada microservicio posee su propia base de datos MySQL y expone una API REST.
 
 ### Flujo de Negocio
 
@@ -43,6 +43,7 @@ Disponib ─┘                    Inspeccion  Multa
 | 8 | **alquiler** | `9097` | `alquiler_db` | Orquestacion del alquiler (reserva→pago→activo→finalizado) |
 | 9 | **inspeccion** | `9096` | `inspeccion_db` | Inspecciones de entrega y devolucion |
 | 10 | **multa** | `9100` | `multa_db` | Multas por devolucion tardia o daños |
+| — | **gateway** | `9000` | — | API Gateway - punto unico de entrada |
 
 ---
 
@@ -62,6 +63,7 @@ Disponib ─┘                    Inspeccion  Multa
 | Configuracion | **YAML** (`application.yml`) |
 | Logging | **SLF4J + Logback** con persistencia a archivo |
 | Testing | **JUnit 5 + Mockito** |
+| API Gateway | **Spring Cloud Gateway** |
 | Utilidades | Lombok
 
 ---
@@ -124,7 +126,18 @@ Asegurate que MySQL este corriendo en `localhost:3306` con:
 - **Usuario:** `root`
 - **Contrasena:** *(vacia)*
 
-### Paso 2: Iniciar los microservicios
+### Paso 2: Iniciar el API Gateway (opcional)
+
+El Gateway centraliza todas las rutas en `http://localhost:9000`:
+
+```bash
+cd gateway && ./mvnw spring-boot:run   # Puerto 9000
+```
+
+Si usas el Gateway, accede a los MS via `http://localhost:9000/api/<ms>`.  
+Si no, accede directamente a cada MS en su puerto (9091–9100).
+
+### Paso 3: Iniciar los microservicios
 
 Deben iniciarse en orden, respetando las dependencias:
 
@@ -135,6 +148,7 @@ cd cliente    && ./mvnw spring-boot:run   # Puerto 9092
 cd vendedor   && ./mvnw spring-boot:run   # Puerto 9093
 
 # Terminal 2 - Servicios intermedios
+cd gateway        && ./mvnw spring-boot:run   # Puerto 9000
 cd vehiculo       && ./mvnw spring-boot:run   # Puerto 9094
 cd disponibilidad && ./mvnw spring-boot:run   # Puerto 9095
 cd reserva        && ./mvnw spring-boot:run   # Puerto 9099
@@ -247,6 +261,7 @@ AlquilerVehiculos/
 ├── README.md                    # Este archivo
 ├── alquiler/                    # Microservicio Alquiler (9097)
 ├── cliente/                     # Microservicio Cliente (9092)
+├── gateway/                     # API Gateway (9000)
 ├── disponibilidad/              # Microservicio Disponibilidad (9095)
 ├── inspeccion/                  # Microservicio Inspeccion (9096)
 ├── multa/                       # Microservicio Multa (9100)
