@@ -1,0 +1,169 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: proyectovehiculos-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  usuario:
+    build: ./usuario
+    container_name: usuario-ms
+    ports:
+      - "9091:9091"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/usuario_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  cliente:
+    build: ./cliente
+    container_name: cliente-ms
+    ports:
+      - "9092:9092"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/cliente_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  vendedor:
+    build: ./vendedor
+    container_name: vendedor-ms
+    ports:
+      - "9093:9093"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/vendedor_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  vehiculo:
+    build: ./vehiculo
+    container_name: vehiculo-ms
+    ports:
+      - "9094:9094"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/vehiculo_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  disponibilidad:
+    build: ./disponibilidad
+    container_name: disponibilidad-ms
+    ports:
+      - "9095:9095"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/disponibilidad_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  inspeccion:
+    build: ./inspeccion
+    container_name: inspeccion-ms
+    ports:
+      - "9096:9096"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/inspeccion_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  alquiler:
+    build: ./alquiler
+    container_name: alquiler-ms
+    ports:
+      - "9097:9097"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/alquiler_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  pago:
+    build: ./pago
+    container_name: pago-ms
+    ports:
+      - "9098:9098"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/pago_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  reserva:
+    build: ./reserva
+    container_name: reserva-ms
+    ports:
+      - "9099:9099"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/Reserva_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  multa:
+    build: ./multa
+    container_name: multa-ms
+    ports:
+      - "9100:9100"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://proyectovehiculos-mysql:3306/multa_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  gateway:
+    build: ./gateway
+    container_name: gateway-ms
+    ports:
+      - "9000:9000"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - usuario
+      - cliente
+      - vendedor
+      - vehiculo
+      - disponibilidad
+      - inspeccion
+      - alquiler
+      - pago
+      - reserva
+      - multa
+
+volumes:
+  mysql-data:

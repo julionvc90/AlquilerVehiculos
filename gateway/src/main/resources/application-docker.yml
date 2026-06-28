@@ -1,0 +1,46 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: usuario
+              uri: http://usuario-ms:9091
+              predicates:
+                - Path=/api/usuarios/**
+            - id: cliente
+              uri: http://cliente-ms:9092
+              predicates:
+                - Path=/api/clientes/**
+            - id: vendedor
+              uri: http://vendedor-ms:9093
+              predicates:
+                - Path=/api/vendedores/**
+            - id: vehiculo
+              uri: http://vehiculo-ms:9094
+              predicates:
+                - Path=/api/vehiculos/**
+            - id: disponibilidad
+              uri: http://disponibilidad-ms:9095
+              predicates:
+                - Path=/api/disponibilidad/**
+            - id: inspeccion
+              uri: http://inspeccion-ms:9096
+              predicates:
+                - Path=/api/inspecciones/**
+            - id: alquiler
+              uri: http://alquiler-ms:9097
+              predicates:
+                - Path=/api/alquiler/**
+            - id: pago
+              uri: http://pago-ms:9098
+              predicates:
+                - Path=/api/pago/**
+            - id: reserva
+              uri: http://reserva-ms:9099
+              predicates:
+                - Path=/api/reserva/**
+            - id: multa
+              uri: http://multa-ms:9100
+              predicates:
+                - Path=/api/multa/**

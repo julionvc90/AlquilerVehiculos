@@ -192,6 +192,26 @@ Pruebas con JUnit 5 + Mockito: CRUD, reglas de negocio y validaciones FK.
 
 ---
 
+## 🐳 Docker
+
+```bash
+# 1. Generar todos los JARs
+build-all.bat
+
+# 2. Levantar todos los servicios (11 MS + MySQL)
+docker compose up -d --build
+
+# 3. Acceder via Gateway
+http://localhost:9000/api/usuarios
+
+# 4. Detener
+docker compose down
+```
+
+El `docker-compose.yml` incluye MySQL 8.0 y los 11 microservicios con healthchecks y reinicio automatico.
+
+---
+
 ## 🔄 Flujo Completo de Prueba
 
 ```bash
