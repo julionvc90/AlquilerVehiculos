@@ -114,11 +114,29 @@ pago (9098) ←── alquiler (9097)
 
 ## 🚀 Como Ejecutar
 
+### 🐳 Con Docker (recomendado)
+
+```bash
+build-all.bat                     # Genera los 11 JARs
+docker compose up -d --build      # Levanta MySQL + 11 MS
+```
+
+Esto levanta todo con **datos de prueba precargados** (10 usuarios, 5 clientes, 5 vendedores, 5 vehiculos, etc.).
+
+**Gateway:** `http://localhost:9000/api/<ms>`  
+**Swagger individual:** `http://localhost:9091/doc/swagger-ui/index.html` (usuario), etc.
+
+```bash
+docker compose down               # Detener todo
+```
+
+### 💻 Ejecucion Local (desarrollo)
+
 ### Requisitos previos
 
 - Java 21
 - Maven (incluido via `mvnw`)
-- MySQL (puerto 3306) — recomendado via XAMPP
+- MySQL (puerto 3306) — recomendado via XAMPP (sin password)
 
 ### Paso 1: Configurar MySQL
 
