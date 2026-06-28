@@ -16,7 +16,7 @@ public class DataLoader implements CommandLineRunner {
 
     private final InspeccionRepository repository;
     private static final String[] TIPOS = {"Entrega", "Devolucion"};
-    private static final String[] RESULTADOS = {"Aprobado", "Rechazado", "Aprobado con observaciones"};
+    private static final String[] RESULTADOS = {"Aprobado", "Rechazado", "Aprobado c/obs"};
 
     public DataLoader(InspeccionRepository repository) {
         this.repository = repository;
