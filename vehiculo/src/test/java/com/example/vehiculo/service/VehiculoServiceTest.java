@@ -101,4 +101,13 @@ class VehiculoServiceTest {
         service.eliminar(1L);
         verify(repository).delete(vehiculo);
     }
+
+    @Test
+    @DisplayName("buscarPorId - lanza excepcion cuando no existe")
+    void buscarPorId_noEncontrado() {
+        when(repository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> service.buscarPorId(99L));
+    }
 }

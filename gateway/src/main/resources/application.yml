@@ -1,6 +1,35 @@
 server:
   port: 9000
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+    url: /api/vendedores/v3/api-docs
+    urls:
+      - name: usuario
+        url: /api/usuarios/v3/api-docs
+      - name: cliente
+        url: /api/clientes/v3/api-docs
+      - name: vendedor
+        url: /api/vendedores/v3/api-docs
+      - name: vehiculo
+        url: /api/vehiculos/v3/api-docs
+      - name: disponibilidad
+        url: /api/disponibilidad/v3/api-docs
+      - name: inspeccion
+        url: /api/inspecciones/v3/api-docs
+      - name: alquiler
+        url: /api/alquiler/v3/api-docs
+      - name: pago
+        url: /api/pago/v3/api-docs
+      - name: reserva
+        url: /api/reserva/v3/api-docs
+      - name: multa
+        url: /api/multa/v3/api-docs
+
 spring:
   application:
     name: gateway

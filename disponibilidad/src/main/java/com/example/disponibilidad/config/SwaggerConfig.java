@@ -2,8 +2,11 @@ package com.example.disponibilidad.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
@@ -15,6 +18,11 @@ public class SwaggerConfig {
                         .title("Microservicio Disponibilidad")
                         .version("1.0")
                         .description("API de gestión de disponibilidad de vehículos del Sistema de Alquiler. " +
-                                "Permite registrar periodos y validar disponibilidad por fechas."));
+                                "Permite registrar periodos y validar disponibilidad por fechas."))
+                .servers(List.of(
+                        new Server()
+                                .url("http://localhost:9000")
+                                .description("API Gateway")
+                ));
     }
 }

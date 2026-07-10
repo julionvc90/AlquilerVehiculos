@@ -35,7 +35,7 @@ public class Inspeccion {
     @Column(name = "tipo_inspeccion", nullable = false, length = 20)
     private String tipoInspeccion;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 30)
     private String resultado;
 
     @Column(length = 500)
